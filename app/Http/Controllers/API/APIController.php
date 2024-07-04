@@ -13,7 +13,8 @@ class APIController extends Controller
     // Shiprocket API Integration
     // Shiprocket API Documentation: https://apidocs.shiprocket.in/
     // Push our 'Multi-vendor E-commerce Application' website orders (from our `orders` database table) to Shiprocket
-    public function pushOrder($id) { // This route/URL/link is: GET http://127.0.0.1:8000/api/push-order/3
+    public function pushOrder($id)
+    { // This route/URL/link is: GET http://127.0.0.1:8000/api/push-order/3
         // Get the Order from `orders` table and its order Details from `orders_products` table (using the 'order_items' Relationship)
         $getResults = \App\Models\Order::pushOrder($id);
 
@@ -29,7 +30,8 @@ class APIController extends Controller
     // Our Multi-vendor E-commerce Application Website API
 
     // Get ALL users    Or    Get a SINGLE user (GET)    (depending on if the {id?} Optional Paramter specified or not in the API Endpoint route)    // API Endpoint:    GET http://127.0.0.1:8000/api/users Or GET http://127.0.0.1:8000/api/users/37    // User must send an "Authorization" HTTP Header with all their HTTP Requests with this value (Bearer Token (JWT)): "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFtaXQgR3VwdGEiLCJpYXQiOjE1MTYyMzkwMjJ9.cNrgi6Sso9wvs4GlJmFnA4IqJY4o2QEcKXgshJTjfNg"    
-    public function getUsers(Request $request, $id = null) { 
+    public function getUsers(Request $request, $id = null)
+    {
         if ($request->isMethod('get')) { // Check if the incoming HTTP Request Method/Verb is 'GET'
             // Simple Authentication    
             $header = $request->header('Authorization'); // Get the 'Authorization' HTTP Header sent from the user's client to the server with their HTTP Request    // Request Headers: https://laravel.com/docs/9.x/requests#request-headers
@@ -77,7 +79,8 @@ class APIController extends Controller
     }
 
     // Create a Single user (POST)    // API Endpoint:    POST http://127.0.0.1:8000/api/add-user    // 'name', 'email' and 'password' fields must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )     
-    public function addUser(Request $request) {
+    public function addUser(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
             $userData = $request->input();
 
@@ -104,8 +107,7 @@ class APIController extends Controller
             $validator = \Illuminate\Support\Facades\Validator::make($userData, $rules, $customMessages);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);       
- 
+                return response()->json($validator->errors(), 422);
             }
 
 
@@ -134,10 +136,11 @@ class APIController extends Controller
     }
 
     // Create Multiple users (also works for Create a Single user) (POST)    // API Endpoint:    POST http://127.0.0.1:8000/api/add-multiple-users    // Note: In Postman, JSON data are submitted using Curly Braces {} and a "users" Wrapping Object and Square Brackets [])    // 'name', 'email' and 'password' fields must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )     
-    public function addMultipleUsers(Request $request) {
+    public function addMultipleUsers(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
             $userData = $request->input();
-            
+
             // Validation (Laravel Validation)    // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
             // Important Note: Here, this situation is different! Because JSON data come in as bulk/multiple JSON data/objects! So, we have to modify our validation Rules syntax a litte!    // Important Note (Validation Rules syntax for incoming/submitted bulk/multiple JSON data/objects and their Custom Messages  i.e.  This is called "Validating Nested Array Input": https://laravel.com/docs/9.x/validation#validating-nested-array-input): If you want to validate (do Validation) incoming data, which for example come as JSON data submitted to your API, and those data come as bulk/multiple JSON data/objects which are wrapped inside a JSON Wrapping Object, you can write your $rules array like:     $rules = [ 'users.*.name' => 'requried' ];     where 'users' is the JSON Wrapping Object, and * (asterisk) is the array indexes (e.g. 0, 1, 2, ...)    // Validating Nested Array Input: https://laravel.com/docs/9.x/validation#validating-nested-array-input
             $rules = [
@@ -160,14 +163,13 @@ class APIController extends Controller
                 'users.*.password.required' => 'Your password (field) is required'           // Note: Submitted data is bulk/mulple JSON data/objects wrapped in a 'users' JSON Wrapping Object, and '*' (asterisk) denotes the array keys/indexes (e.g. 0, 1, 2, ...)    // Validating Nested Array Input: https://laravel.com/docs/9.x/validation#validating-nested-array-input
             ];
 
-            
+
             $validator = \Illuminate\Support\Facades\Validator::make($userData, $rules, $customMessages);
 
 
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);       
- 
+                return response()->json($validator->errors(), 422);
             }
 
 
@@ -198,7 +200,8 @@ class APIController extends Controller
     }
 
     // Update a Single user details (PUT)    // API Endpoint:    PUT http://127.0.0.1:8000/api/update-user-details Or PUT http://127.0.0.1:8000/api/update-user-details/23    // Note: In Postman, JSON data are submitted using Curly Braces {} and a "users" Wrapping Object and Square Brackets [])    // 'id', 'name', 'email' and 'password' fields must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )     
-    public function updateUserDetails(Request $request, $id = null) { // Note: Query String Paramets (like 'id') can be submitted in THREE ways: using "Body" tab in Postman (as JSON data), as a URL Query String Parameters (e.g. www.example.com?id=3) and using Postman "Params" tab        
+    public function updateUserDetails(Request $request, $id = null)
+    { // Note: Query String Paramets (like 'id') can be submitted in THREE ways: using "Body" tab in Postman (as JSON data), as a URL Query String Parameters (e.g. www.example.com?id=3) and using Postman "Params" tab        
         if ($request->isMethod('put')) { // Check if the incoming HTTP Request Method/Verb is 'PUT'
             $userData = $request->input();
 
@@ -224,8 +227,7 @@ class APIController extends Controller
             $validator = \Illuminate\Support\Facades\Validator::make($userData, $rules, $customMessages);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);       
- 
+                return response()->json($validator->errors(), 422);
             }
 
 
@@ -253,7 +255,8 @@ class APIController extends Controller
     }
 
     // Update the 'name' ONLY of a Single user (just a portion of a resource) (PATCH)    // API Endpoint:    PATCH http://127.0.0.1:8000/api/update-user-name Or PATCH http://127.0.0.1:8000/api/update-user-name/21    // Note: In Postman, JSON data are submitted using Curly Braces {} and a "users" Wrapping Object and Square Brackets [])    // 'id' and 'name' fields must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )     
-    public function updateUserName(Request $request, $id = null) { // Note: Query String Paramets (like 'id') can be submitted in THREE ways: using "Body" tab in Postman (as JSON data), as a URL Query String Parameters (e.g. www.example.com?id=3) and using Postman "Params" tab        
+    public function updateUserName(Request $request, $id = null)
+    { // Note: Query String Paramets (like 'id') can be submitted in THREE ways: using "Body" tab in Postman (as JSON data), as a URL Query String Parameters (e.g. www.example.com?id=3) and using Postman "Params" tab        
         if ($request->isMethod('patch')) { // Check if the incoming HTTP Request Method/Verb is 'PATCH'
             $userData = $request->input();
 
@@ -268,12 +271,11 @@ class APIController extends Controller
                 // The SAME last Fields (inside $rules array)
                 'name.required'     => 'Your Name (field) is required'
             ];
-            
+
             $validator = \Illuminate\Support\Facades\Validator::make($userData, $rules, $customMessages);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);       
- 
+                return response()->json($validator->errors(), 422);
             }
 
             // Update the `name` column of the submitted user 'id' and 'name' in `users` table
@@ -296,7 +298,8 @@ class APIController extends Controller
     }
 
     // Delete a Single user (DELETE)    // API Endpoint:    DELETE http://127.0.0.1:8000/api/delete-user Or DELETE http://127.0.0.1:8000/api/delete-user/32    // Note: In Postman, JSON data are submitted using Curly Braces {} and a "users" Wrapping Object and Square Brackets [])    // 'id' field must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )     
-    public function deleteUser(Request $request, $id = null) { // Note: Query String Paramets (like 'id') can be submitted in THREE ways: using "Body" tab in Postman (as JSON data), as a URL Query String Parameters (e.g. www.example.com?id=3) and using Postman "Params" tab        
+    public function deleteUser(Request $request, $id = null)
+    { // Note: Query String Paramets (like 'id') can be submitted in THREE ways: using "Body" tab in Postman (as JSON data), as a URL Query String Parameters (e.g. www.example.com?id=3) and using Postman "Params" tab        
         if ($request->isMethod('delete')) { // Check if the incoming HTTP Request Method/Verb is 'DELETE'
             $userData = $request->input();
 
@@ -320,7 +323,8 @@ class APIController extends Controller
     }
 
     // Delete Multiple users (DELETE)    // API Endpoint:    DELETE http://127.0.0.1:8000/api/delete-multiple-users Or DELETE http://127.0.0.1:8000/api/delete-multiple-users/11,13,20    // Note: In Postman, JSON data are submitted using Curly Braces {} and an "ids" Wrapping Object and Square Brackets [])    // 'ids' field must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )     
-    public function deleteMultipleUsers(Request $request, $ids = null) { // Note: Query String Paramets (like 'id') can be submitted in THREE ways: using "Body" tab in Postman (as JSON data), as a URL Query String Parameters (e.g. www.example.com?id=3) and using Postman "Params" tab        
+    public function deleteMultipleUsers(Request $request, $ids = null)
+    { // Note: Query String Paramets (like 'id') can be submitted in THREE ways: using "Body" tab in Postman (as JSON data), as a URL Query String Parameters (e.g. www.example.com?id=3) and using Postman "Params" tab        
         if ($request->isMethod('delete')) { // Check if the incoming HTTP Request Method/Verb is 'DELETE'
             $userData = $request->input();
 
@@ -346,7 +350,6 @@ class APIController extends Controller
                     'message' => 'Users deleted successfully!'
                 ], 202/* 204 */); // 204 HTTP Status Code: No Content    // With DELETE requests, 204 No Content, 202 Accepted or 200 HTTP Status Code is sent with the HTTP Response    // Note: 204 No Content HTTP Status Code cancels out/hides any Messages you send back with your HTTP Response! (Your Message would disappear/vanish with your HTTP Response! Nothing at all will show up to the user!)        
             }
-
         } else { // if the user is using the wrong dedicated HTTP Request Method/Verb for their request (i.e. User has used an HTTP Request Method/Verb other than 'DELETE')
             $message = 'You\'re using an incorrect/invalid HTTP Request Method/Verb to access this route/endpoint in our API!';
 
@@ -358,7 +361,8 @@ class APIController extends Controller
     }
 
     // Register a new user and Generate a new Access Token for them (POST)    // API Endpoint:    POST http://127.0.0.1:8000/api/register-user    // Whenever a new user registers a new account using our Registration API Endpoint, we'll generate an Access Token for them to use and send with all their subsequent HTTP Requests (and will store it in the `access_token` column in `users` table). Note: Whenever the user logs in, we'll generate a new Access Token (that acts the same as a browser Session (i.e. Both Session and Access Token are sent from the client to the server with EVERY HTTP Request), except the fact that there's no browser Session here!) that will replace the old one in the `access_token` column in `users` table. This token will be valid only till the user logs out and then expires (by deleting it from the `access_token` column in the `users` database table when the user logs out)    // User can use the new Access Token that gets generated wheny they register a new account with all their subsequent HTTP Requests    // Note: In Postman, JSON data are submitted using Curly Braces {} and an "ids" Wrapping Object and Square Brackets [])    // 'name', 'email' and 'password' fields must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )    
-    public function registerUser(Request $request) {
+    public function registerUser(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
             $userData = $request->input();
 
@@ -381,11 +385,11 @@ class APIController extends Controller
 
                 'password.required' => 'Your password (field) is required'
             ];
-            
+
             $validator = \Illuminate\Support\Facades\Validator::make($userData, $rules, $customMessages);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);        
+                return response()->json($validator->errors(), 422);
             }
 
 
@@ -424,7 +428,8 @@ class APIController extends Controller
     }
 
     // Log in a user and Generate a new Access Token for them (POST)    // API Endpoint:    POST http://127.0.0.1:8000/api/login-user    // Whenever a new user registers a new account using our Registration API Endpoint, we'll generate an Access Token for them to use and send with all their subsequent HTTP Requests (and will store it in the `access_token` column in `users` table). Note: Whenever the user logs in, we'll generate a new Access Token (that acts the same as a browser Session (i.e. Both Session and Access Token are sent from the client to the server with EVERY HTTP Request), except the fact that there's no browser Session here!) that will replace the old one in the `access_token` column in `users` table. This token will be valid only till the user logs out and then expires (by deleting it from the `access_token` column in the `users` database table when the user logs out)    // User must send an "Authorization" HTTP Header with all their subsequent HTTP Requests with the value of the "Bearer" Accesss Token that they received in the HTTP Response when they first logged in or when they first registered their brand-new account. The "Bearer" Access Token should be sent in the following form:    "Bearer xxxxxxxxxxxxxxxxxx"    where xxxxxxxxxxxxxxxxxx is the "Bearer" Access Token value.    // Note: In Postman, JSON data are submitted using Curly Braces {} and an "ids" Wrapping Object and Square Brackets [])    // 'email' and 'password' fields must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )    
-    public function loginUser(Request $request) {
+    public function loginUser(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
             $userData = $request->input();
 
@@ -448,8 +453,7 @@ class APIController extends Controller
             $validator = \Illuminate\Support\Facades\Validator::make($userData, $rules, $customMessages);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);       
- 
+                return response()->json($validator->errors(), 422);
             }
 
             // Fetch/Get the submitted user record (their `users` table row) from `users` table based on the submitted `email` in order to verify the submitted `password`
@@ -477,7 +481,6 @@ class APIController extends Controller
                     'message' => 'Password is incorrect!'
                 ], 422); // 422 HTTP Status Code: Unprocessable Content            
             }
-
         } else { // if the user is using the wrong dedicated HTTP Request Method/Verb for their request (i.e. User has used an HTTP Request Method/Verb other than 'POST')
 
             $message = 'You\'re using an incorrect/invalid HTTP Request Method/Verb to access this route/endpoint in our API!';
@@ -491,7 +494,8 @@ class APIController extends Controller
     }
 
     // Log out a user and Delete their current Access Token (POST)    // API Endpoint:    POST http://127.0.0.1:8000/api/logout-user    // Whenever a new user registers a new account using our Registration API Endpoint, we'll generate an Access Token for them to use and send with all their subsequent HTTP Requests (and will store it in the `access_token` column in `users` table). Note: Whenever the user logs in, we'll generate a new Access Token (that acts the same as a browser Session (i.e. Both Session and Access Token are sent from the client to the server with EVERY HTTP Request), except the fact that there's no browser Session here!) that will replace the old one in the `access_token` column in `users` table. This token will be valid only till the user logs out and then expires (by deleting it from the `access_token` column in the `users` database table when the user logs out)    // User must send an "Authorization" HTTP Header with all their subsequent HTTP Requests with the value of the "Bearer" Accesss Token that they received in the HTTP Response when they first logged in or when they first registered their brand-new account. The "Bearer" Access Token should be sent in the following form:    "Bearer xxxxxxxxxxxxxxxxxx"    where xxxxxxxxxxxxxxxxxx is the "Bearer" Access Token value.    // Note: In Postman, JSON data are submitted using Curly Braces {} and an "ids" Wrapping Object and Square Brackets [])    // No fields must be submitted by the user (from Postman) here! That's because the user will be identified through their Access Token sent (as 'Authorization' HTTP Header) with their HTTP Request to the server. Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )    
-    public function logoutUser(Request $request) {
+    public function logoutUser(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
             $api_token = $request->header('Authorization'); // Get the 'Authorization' HTTP Header sent from the user's client to the server with their HTTP Request    // Request Headers: https://laravel.com/docs/9.x/requests#request-headers
             // dd($api_token);
@@ -526,9 +530,7 @@ class APIController extends Controller
                         'message' => 'Your submitted \'Authorization\' HTTP Request Header value (i.e. the Bearer Access Token) does not exist in our database!'
                     ], 422); // 422 HTTP Status Code: Unprocessable Content                
                 }
-
             }
-
         } else { // if the user is using the wrong dedicated HTTP Request Method/Verb for their request (i.e. User has used an HTTP Request Method/Verb other than 'POST')
 
             $message = 'You\'re using an incorrect/invalid HTTP Request Method/Verb to access this route/endpoint in our API!';
@@ -546,7 +548,8 @@ class APIController extends Controller
     // API Endpoints/Routes using "Laravel Passport" package Authentication:
 
     // Register a new user and Generate a new Access Token for them Using "Passport" (POST)    // API Endpoint:    POST http://127.0.0.1:8000/api/register-user-with-passport    // Whenever a new user registers a new account using our Registration API Endpoint, we'll generate an Access Token for them to use and send with all their subsequent HTTP Requests (and will store it in the `api_token` column in `users` table). Note: Whenever the user logs in, we'll generate a new Access Token (that acts the same as a browser Session (i.e. Both Session and Access Token are sent from the client to the server with EVERY HTTP Request), except the fact that there's no browser Session here!) that will replace the old one in the `api_token` column in `users` table. This token will be valid only till the user logs out and then expires (by deleting it from the `api_token` column in the `users` database table when the user logs out)    // User can use the new Access Token that gets generated wheny they register a new account with all their subsequent HTTP Requests    // Note: In Postman, JSON data are submitted using Curly Braces {} and an "ids" Wrapping Object and Square Brackets [])    // 'name', 'email' and 'password' fields must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )    
-    public function registerUserWithPassport(Request $request) {
+    public function registerUserWithPassport(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
             $userData = $request->input();
 
@@ -573,14 +576,13 @@ class APIController extends Controller
             $validator = \Illuminate\Support\Facades\Validator::make($userData, $rules, $customMessages);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);       
- 
+                return response()->json($validator->errors(), 422);
             }
 
             // Generate a new Access Token for the newly registered user, and save it in the `access_token` column in `users` table (and overwrite/override/replace the old Access Token in `access_token` column if there is any!)
             // $accessToken = \Illuminate\Support\Str::random(60); // Str::random(): https://laravel.com/docs/9.x/helpers#method-str-random
 
-            
+
 
             // Register the new user i.e. Save the submitted user data (name, email and password) along with the newly generated API Access Token in `users` table
             $user = new User;
@@ -616,14 +618,13 @@ class APIController extends Controller
                     'token'   => $accessToken,
                     'user'    => $user
                 ], 201);  // 201 HTTP Status Code: Created    // With POST requests, 201 Created HTTP Status Code is sent with the HTTP Response        
-            
+
             } else { // if the user fails authentication/logging in (enters wrong email or password)
                 return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
                     'status'  => false,
                     'message' => 'Wrong credentials! Incorrect email or password!'
                 ], 422); // 422 HTTP Status Code: Unprocessable Content            
             }
-
         } else { // if the user is using the wrong dedicated HTTP Request Method/Verb for their request (i.e. User has used an HTTP Request Method/Verb other than 'POST')
             $message = 'You\'re using an incorrect/invalid HTTP Request Method/Verb to access this route/endpoint in our API!';
             return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
@@ -634,7 +635,8 @@ class APIController extends Controller
     }
 
     // Log in a user and Generate a new Access Token for them Using "Passport" (POST)    // API Endpoint:    POST http://127.0.0.1:8000/api/login-user-with-passport    // Whenever a new user registers a new account using our Registration API Endpoint, we'll generate an Access Token for them to use and send with all their subsequent HTTP Requests (and will store it in the `api_token` column in `users` table). Note: Whenever the user logs in, we'll generate a new Access Token (that acts the same as a browser Session (i.e. Both Session and Access Token are sent from the client to the server with EVERY HTTP Request), except the fact that there's no browser Session here!) that will replace the old one in the `api_token` column in `users` table. This token will be valid only till the user logs out and then expires (by deleting it from the `api_token` column in the `users` database table when the user logs out)    // User must send an "Authorization" HTTP Header with all their subsequent HTTP Requests with the value of the "Bearer" Accesss Token that they received in the HTTP Response when they first logged in or when they first registered their brand-new account. The "Bearer" Access Token should be sent in the following form:    "Bearer xxxxxxxxxxxxxxxxxx"    where xxxxxxxxxxxxxxxxxx is the "Bearer" Access Token value.    // Note: In Postman, JSON data are submitted using Curly Braces {} and an "ids" Wrapping Object and Square Brackets [])    // 'email' and 'password' fields must be submitted by the user (from Postman). Note: Data can be posted/sent/submitted in Postman using a GET/POST/PUT/PATCH/DELETE request using TWO ways: First: "form-data" (resembles the HTML Form <input> fields (key/value pairs) and their "name" and "value" <input> HTML tag attributes, and you can retrieve those data in the backend using the Superglobals $_POST and $_FILES), Second: "raw" (through which you can decide the data type of the whole HTTP Request Body (e.g. JSON, HTML, ...etc), and you can retrieve those data in the backend using, for example if data were JSON, json_decode() function and then access the JSON key/value pairs as follows:    $jsonImageAttributes->filename    )    
-    public function loginUserWithPassport(Request $request) {
+    public function loginUserWithPassport(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
             $userData = $request->input();
 
@@ -654,12 +656,11 @@ class APIController extends Controller
 
                 'password.required' => 'Your password (field) is required'
             ];
-            
+
             $validator = \Illuminate\Support\Facades\Validator::make($userData, $rules, $customMessages);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);       
- 
+                return response()->json($validator->errors(), 422);
             }
 
 
@@ -684,14 +685,13 @@ class APIController extends Controller
                     'token'   => $accessToken,
                     'user'    => $user
                 ], 201);  // 201 HTTP Status Code: Created    // With POST requests, 201 Created HTTP Status Code is sent with the HTTP Response        
-            
+
             } else { // if the user fails authentication/logging in (enters wrong email or password)
                 return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
                     'status'  => false,
                     'message' => 'Wrong credentials! Incorrect email or password!'
                 ], 422); // 422 HTTP Status Code: Unprocessable Content            
             }
-
         } else { // if the user is using the wrong dedicated HTTP Request Method/Verb for their request (i.e. User has used an HTTP Request Method/Verb other than 'POST')
             $message = 'You\'re using an incorrect/invalid HTTP Request Method/Verb to access this route/endpoint in our API!';
             return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
@@ -704,7 +704,8 @@ class APIController extends Controller
 
 
     // Update the stock via a third-party API / 3rd-party API (an inventory/stock management system like Uniware Cloud Inventory Control, ...) (using cURL) (POST)    // Here, we're using a third party to handle our stock/inventory management i.e. we don't handle our stock/inventory management ourselves    // API Endpoint:    POST http://127.0.0.1:8000/api/update-stock    // The user must send this 'Authorization' HTTP Header value i.e. Bearer Access Token with their HTTP Request: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFtaXQgR3VwdGEiLCJpYXQiOjE1MTYyMzkwMjJ9.cNrgi6Sso9wvs4GlJmFnA4IqJY4o2QEcKXgshJTjfNg'    
-    public function updateStock(Request $request) {
+    public function updateStock(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
             $userData = $request->input();
 
@@ -743,7 +744,7 @@ class APIController extends Controller
                     if (isset($data['items'])) { // if    $data['items']    has returned from the server HTTP Response
                         foreach ($data['items'] as $key => $value) {
                             // Update the `stock` column in our `products_attributes` database table
-                            ProductsAttribute::where('sku', $value['sku'])->update([ 'stock' => $value['stock'] ]);
+                            ProductsAttribute::where('sku', $value['sku'])->update(['stock' => $value['stock']]);
                         }
 
                         // Send a stock update success/confirmation JSON HTTP Response
@@ -757,16 +758,13 @@ class APIController extends Controller
                             'message' => 'No items found!'
                         ], 422); // 422 HTTP Status Code: Unprocessable Content        
                     }
-
                 } else { // if the user sends an inccorrect HTTP Request Header value (i.e. incorrect Bearer Access Token) with their HTTP Request
                     return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
                         'status'  => false,
                         'message' => 'Your submitted \'Authorization\' HTTP Request Header value (i.e. the Bearer Access Token) is incorrect!'
                     ], 422); // 422 HTTP Status Code: Unprocessable Content        
                 }
-
             }
-
         } else { // if the user is using the wrong dedicated HTTP Request Method/Verb for their request (i.e. User has used an HTTP Request Method/Verb other than 'POST')
             $message = 'You\'re using an incorrect/invalid HTTP Request Method/Verb to access this route/endpoint in our API!';
             return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
@@ -777,7 +775,8 @@ class APIController extends Controller
     }
 
     // Webhook: Update the stock by giving this API endpoint to a third-party inventory/stock management system (like Uniware Cloud Inventory Control, ...) to access to update our stock (POST)    // Here, the third-party stock/inventory management system (Webhook) accesses our API endpoint only when there's a stock update on their end (the stock/inventory management system's end) to update our stock on our end in our database    // API Endpoint:    POST http://127.0.0.1:8000/api/update-stock-with-webhook    // The user must send this 'Authorization' HTTP Header value i.e. Bearer Access Token with their HTTP Request: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFtaXQgR3VwdGEiLCJpYXQiOjE1MTYyMzkwMjJ9.cNrgi6Sso9wvs4GlJmFnA4IqJY4o2QEcKXgshJTjfNg'    
-    public function updateStockWithWebhook(Request $request) {
+    public function updateStockWithWebhook(Request $request)
+    {
         if ($request->isMethod('post')) { // Check if the incoming HTTP Request Method/Verb is 'POST'
 
             // Checking for the 'Authorization' HTTP Header value i.e. Bearer Access Token
@@ -801,7 +800,7 @@ class APIController extends Controller
                     if (isset($data['items'])) { // if    $data['items']    has returned from the server HTTP Response
                         foreach ($data['items'] as $key => $value) {
                             // Update the `stock` column in our `products_attributes` database table
-                            ProductsAttribute::where('sku', $value['sku'])->update([ 'stock' => $value['stock'] ]);
+                            ProductsAttribute::where('sku', $value['sku'])->update(['stock' => $value['stock']]);
                         }
 
                         // Send a stock update success/confirmation JSON HTTP Response
@@ -816,16 +815,13 @@ class APIController extends Controller
                             'message' => 'No items found!'
                         ], 422); // 422 HTTP Status Code: Unprocessable Content        
                     }
-
                 } else { // if the user sends an inccorrect HTTP Request Header value (i.e. incorrect Bearer Access Token) with their HTTP Request
                     return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
                         'status'  => false,
                         'message' => 'Your submitted \'Authorization\' HTTP Request Header value (i.e. the Bearer Access Token) is incorrect!'
                     ], 422); // 422 HTTP Status Code: Unprocessable Content        
                 }
-
             }
-
         } else { // if the user is using the wrong dedicated HTTP Request Method/Verb for their request (i.e. User has used an HTTP Request Method/Verb other than 'POST')
             $message = 'You\'re using an incorrect/invalid HTTP Request Method/Verb to access this route/endpoint in our API!';
             return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
@@ -834,5 +830,4 @@ class APIController extends Controller
             ], 422); // 422 HTTP Status Code: Unprocessable Content        
         }
     }
-
 }
