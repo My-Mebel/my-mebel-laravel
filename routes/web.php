@@ -321,3 +321,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
     });
 
 });
+
+Route::get('login', function() {
+    return view('front.users.login', ['as' => 'login', 'uses' => 'UserController@loginRegister']);
+});
