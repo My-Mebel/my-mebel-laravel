@@ -114,9 +114,9 @@ class PaypalController extends Controller
                     'orderDetails' => $orderDetails
                 ];
 
-                \Illuminate\Support\Facades\Mail::send('emails.order', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order' is the order.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
-                    $message->to($email)->subject('Order Paid through PayPal - MultiVendorEcommerceApplication.com.eg');
-                });
+                // \Illuminate\Support\Facades\Mail::send('emails.order', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order' is the order.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
+                //     $message->to($email)->subject('Order Paid through PayPal - my-mebel.com');
+                // });
 
 
                 // Inventory Management - Reduce inventory/stock when an order gets placed

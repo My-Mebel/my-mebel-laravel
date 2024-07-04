@@ -196,9 +196,9 @@ class OrderController extends Controller
                     'tracking_number' => $data['tracking_number']
                 ];
 
-                \Illuminate\Support\Facades\Mail::send('emails.order_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_status' is the order_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
-                    $message->to($email)->subject('Order Status Updated - MultiVendorEcommerceApplication.com.eg');
-                });
+                // \Illuminate\Support\Facades\Mail::send('emails.order_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_status' is the order_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
+                //     $message->to($email)->subject('Order Status Updated - my-mebel.com');
+                // });
 
             } else { // if there are no Courier Name and Tracking Number data, don't include them in the email
                 $email = $deliveryDetails['email'];
@@ -212,9 +212,9 @@ class OrderController extends Controller
                     'order_status' => $data['order_status']
                 ];
     
-                \Illuminate\Support\Facades\Mail::send('emails.order_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_status' is the order_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
-                    $message->to($email)->subject('Order Status Updated - MultiVendorEcommerceApplication.com.eg');
-                });
+                // \Illuminate\Support\Facades\Mail::send('emails.order_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_status' is the order_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
+                //     $message->to($email)->subject('Order Status Updated - my-mebel.com');
+                // });
             }
 
             $message = 'Order Status has been updated successfully!';
@@ -286,9 +286,9 @@ class OrderController extends Controller
                     'tracking_number' => $data['item_tracking_number']
                 ];
 
-                \Illuminate\Support\Facades\Mail::send('emails.order_item_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_item_status' is the order_item_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_item_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
-                    $message->to($email)->subject('Order Item Status Updated - MultiVendorEcommerceApplication.com.eg');
-                });
+                // \Illuminate\Support\Facades\Mail::send('emails.order_item_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_item_status' is the order_item_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_item_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
+                //     $message->to($email)->subject('Order Item Status Updated - my-mebel.com');
+                // });
 
             } else { // if there are no Courier Name and Tracking Number data, don't include them in the email
                 $email = $deliveryDetails['email'];
@@ -302,9 +302,9 @@ class OrderController extends Controller
                     'order_status' => $data['order_item_status']
                 ];
     
-                \Illuminate\Support\Facades\Mail::send('emails.order_item_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_item_status' is the order_item_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_item_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
-                    $message->to($email)->subject('Order Item Status Updated - MultiVendorEcommerceApplication.com.eg');
-                });
+                // Illuminate\Support\Facades\Mail::send('emails.order_item_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_item_status' is the order_item_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_item_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
+                //     $message->to($email)->subject('Order Item Status Updated - my-mebel.com');
+                // });
             }
 
             $message = 'Order Item Status has been updated successfully!';
@@ -616,10 +616,10 @@ class OrderController extends Controller
                 <header class="clearfix">
                     <div class="container">
                         <div class="company-address">
-                            <h2 class="title">Multi-vendor E-commerce Application</h2>
+                            <h2 class="title">My-Mebel</h2>
                             <p>
-                                37 Salah Salem St.<br>
-                                Cairo, Egypt
+                                Teknik Kimia Street<br>
+                                Surabaya, Indonesia
                             </p>
                         </div>
                         <div class="company-contact">

@@ -64,7 +64,7 @@ class VendorController extends Controller
             $vendor->confirm = 'Yes';
 
             // Set Laravel's default timezone to Egypt's (to enter correct `created_at` and `updated_at` records in the database tables) instead of UTC
-            date_default_timezone_set('Africa/Cairo'); // https://www.php.net/manual/en/timezones.php and https://www.php.net/manual/en/timezones.africa.php
+            date_default_timezone_set('Asia/Jakarta'); // https://www.php.net/manual/en/timezones.php and https://www.php.net/manual/en/timezones.africa.php
             $vendor->created_at = date('Y-m-d H:i:s'); // enter `created_at` MANUALLY!    // Formatting the date for MySQL: https://www.php.net/manual/en/function.date.php
             $vendor->updated_at = date('Y-m-d H:i:s'); // enter `updated_at` MANUALLY!
 
@@ -86,22 +86,21 @@ class VendorController extends Controller
             $admin->confirm = 'Yes';
 
             // Set Laravel's default timezone to Egypt's (to enter correct `created_at` and `updated_at` records in the database tables) instead of UTC
-            date_default_timezone_set('Africa/Cairo'); // https://www.php.net/manual/en/timezones.php and https://www.php.net/manual/en/timezones.africa.php
+            date_default_timezone_set('Asia/Jakarta'); // https://www.php.net/manual/en/timezones.php and https://www.php.net/manual/en/timezones.africa.php
             $admin->created_at = date('Y-m-d H:i:s'); // enter `created_at` MANUALLY!    // Formatting the date for MySQL: https://www.php.net/manual/en/function.date.php
             $admin->updated_at = date('Y-m-d H:i:s'); // enter `updated_at` MANUALLY!
 
             $admin->save();
 
+            // // Send the Confirmation Email to the new vendor who has just registered    
+            // $email = $data['email']; // the vendor's email
 
-            // Send the Confirmation Email to the new vendor who has just registered    
-            $email = $data['email']; // the vendor's email
-
-            // The email message data/variables that will be passed in to the email view
-            $messageData = [
-                'email' => $data['email'],
-                'name'  => $data['name'],
-                'code'  => base64_encode($data['email']) // We base64 code the vendor $email and send it as a Route Parameter from vendor_confirmation.blade.php to the 'vendor/confirm/{code}' route in web.php, then it gets base64 decoded again in confirmVendor() method in Front/VendorController.php    // we will use the opposite: base64_decode() in the confirmVendor() method (encode X decode)
-            ];
+            // // The email message data/variables that will be passed in to the email view
+            // $messageData = [
+            //     'email' => $data['email'],
+            //     'name'  => $data['name'],
+            //     'code'  => base64_encode($data['email']) // We base64 code the vendor $email and send it as a Route Parameter from vendor_confirmation.blade.php to the 'vendor/confirm/{code}' route in web.php, then it gets base64 decoded again in confirmVendor() method in Front/VendorController.php    // we will use the opposite: base64_decode() in the confirmVendor() method (encode X decode)
+            // ];
 
             // \Illuminate\Support\Facades\Mail::send('emails.vendor_confirmation', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.vendor_confirmation' is the vendor_confirmation.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that vendor_confirmation.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
             //     $message->to($email)->subject('Confirm your Vendor Account');

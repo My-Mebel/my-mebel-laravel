@@ -47,22 +47,6 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12">
                     <div class="footer-list">
-                        <h6>COLLECTION</h6>
-                        <ul>
-                            <li>
-                                <a href="{{ url('men') }}">Men Clothing</a>
-                            </li>
-                            <li>
-                                <a href="{{ url('women') }}">Women Clothing</a>
-                            </li>
-                            <li>
-                                <a href="{{ url('kids') }}">Kids Clothing</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12">
-                    <div class="footer-list">
                         <h6>ACCOUNT</h6>
                         <ul>
                             <li>
@@ -80,7 +64,7 @@
                         <ul>
                             <li>
                                 <i class="fas fa-location-arrow u-s-m-r-9"></i>
-                                <span>Multi-vendor E-commerce Application</span>
+                                <span>My Mebel</span>
                             </li>
                             <li>
                                 <a href="tel:+201255845857">
@@ -89,10 +73,10 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:info@multi-vendore-commerce.com">
+                                <a href="mailto:info@my-mebel.com">
                                 <i class="fas fa-envelope u-s-m-r-9"></i>
                                 <span>
-                                info@multi-vendore-commerce.com</span>
+                                info@my-mebel.com</span>
                                 </a>
                             </li>
                         </ul>
@@ -143,7 +127,7 @@
                 </ul>
             </div>
             <p class="copyright-text">Copyright &copy; 2022
-                <a target="_blank" rel="nofollow" href="#">Multi-vendor E-commerce Application</a> | All Right Reserved
+                <a target="_blank" rel="nofollow" href="#">My Mebel</a> | All Right Reserved
             </p>
         </div>
     </div>

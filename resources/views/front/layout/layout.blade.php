@@ -33,7 +33,7 @@
             @if (!empty($meta_title))
                 {{ $meta_title }}
             @else
-                Laravel Multi Vendor E-commerce Template - By Multi-vendor E-commerce Application Channel
+                Laravel Multi Vendor E-commerce Template - By My Mebel Channel
             @endif
             
         </title>
