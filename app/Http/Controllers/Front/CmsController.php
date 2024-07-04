@@ -58,9 +58,9 @@ class CmsController extends Controller
                 'comment' => $data['message']
             ];
 
-            \Illuminate\Support\Facades\Mail::send('emails.inquiry', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.inquiry' is the inquiry.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that inquiry.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
-                $message->to($email)->subject('Inquiry from a user');
-            });
+            // \Illuminate\Support\Facades\Mail::send('emails.inquiry', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.inquiry' is the inquiry.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that inquiry.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
+            //     $message->to($email)->subject('Inquiry from a user');
+            // });
 
 
             // Return the user back with a Success Message

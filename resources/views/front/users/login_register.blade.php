@@ -94,21 +94,9 @@
 
 
                             <div class="group-inline u-s-m-b-30">
-
-                                {{-- Remember Me Functionality --}}
-                                {{-- <div class="group-1">
+                                <div class="group-1">
                                     <input type="checkbox" class="check-box" id="remember-me-token">
                                     <label class="label-text" for="remember-me-token">Remember me</label>
-                                </div> --}}
-
-
-                                {{-- Forgot Password Functionality --}} 
-                                <div class="group-2 text-right">
-                                    <div class="page-anchor">
-                                        <a href="{{ url('user/forgot-password') }}">
-                                            <i class="fas fa-circle-o-notch u-s-m-r-9"></i>Lost your password?
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
 

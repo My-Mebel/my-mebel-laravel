@@ -272,9 +272,9 @@ class UserController extends Controller
                     'password' => $new_password // the user's email that they entered while submitting the registration form
                     // 'code'  => base64_encode($data['email']) // We base64 code the user's $email and send it as a Route Parameter from user_confirmation.blade.php to the 'user/confirm/{code}' route in web.php, then it gets base64 decoded again in confirmUser() method in Front/UserController.php    // we will use the opposite: base64_decode() in the confirmUser() method (encode X decode)
                 ];
-                \Illuminate\Support\Facades\Mail::send('emails.user_forgot_password', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.user_forgot_password' is the resources/views/emails/user_forgot_password.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that the user_forgot_password.blade.php file will use    // https://www.php.net/manual/en/functions.anonymous.php
-                    $message->to($email)->subject('New Password - My Mebel');
-                });
+                // \Illuminate\Support\Facades\Mail::send('emails.user_forgot_password', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.user_forgot_password' is the resources/views/emails/user_forgot_password.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that the user_forgot_password.blade.php file will use    // https://www.php.net/manual/en/functions.anonymous.php
+                //     $message->to($email)->subject('New Password - My Mebel');
+                // });
 
                 // Redirect user with a success message
                 // Here, we return a JSON response because the request is ORIGINALLY submitting an HTML <form> data using an AJAX request. Check    $('#forgotForm').submit();    in front/js/custom.js
