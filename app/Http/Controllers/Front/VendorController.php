@@ -61,7 +61,6 @@ class VendorController extends Controller
             $vendor->mobile = $data['mobile'];
             $vendor->email  = $data['email'];
             $vendor->status = 1; // Note: After a new vendor registers a new account, they will remain inactive/disabled (`status` is 0), untill the confirmation email arrives for them and they click the link, and they complete filling their vendor details, then the admin APPROVES them (then status becomes 1)
-            $vendor->confirm = 'Yes';
 
             // Set Laravel's default timezone to Egypt's (to enter correct `created_at` and `updated_at` records in the database tables) instead of UTC
             date_default_timezone_set('Asia/Jakarta'); // https://www.php.net/manual/en/timezones.php and https://www.php.net/manual/en/timezones.africa.php
@@ -83,7 +82,6 @@ class VendorController extends Controller
             $admin->email     = $data['email'];
             $admin->password  = bcrypt($data['password']); // hashing the password to store the hashed password in the table (NOT THE PASSWORD ITSELF!!)
             $admin->status    = 1; // Note: After a new vendor registers a new account, they will remain inactive/disabled (`status` is 0), untill the confirmation email arrives for them and they click the link, and they complete filling their vendor details, then the admin APPROVES them (then status becomes 1)
-            $admin->confirm = 'Yes';
 
             // Set Laravel's default timezone to Egypt's (to enter correct `created_at` and `updated_at` records in the database tables) instead of UTC
             date_default_timezone_set('Asia/Jakarta'); // https://www.php.net/manual/en/timezones.php and https://www.php.net/manual/en/timezones.africa.php

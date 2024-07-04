@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('pincode')->nullable();
             $table->string('mobile');
             $table->string('email')->unique();
-            $table->enum('confirm', ['No', 'Yes']); // added later    // "No" is the default value    
-            $table->tinyInteger('status'); // active or not active (admins will approve the status of the vendor)
+            $table->enum('confirm', ['Yes', 'No']); // added later    // "Yes" is the default value    
+            $table->tinyInteger('status')->default(1); // active or not active (admins will approve the status of the vendor)
 
             $table->timestamps();
         });

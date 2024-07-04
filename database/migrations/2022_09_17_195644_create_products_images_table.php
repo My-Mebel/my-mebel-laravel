@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->integer('product_id');
             $table->string('image'); // image path
-            $table->tinyInteger('status'); // 0 means inactive, 1 means active
+            $table->tinyInteger('status')->default(1); // 0 means inactive, 1 means active
 
             $table->timestamps();
         });

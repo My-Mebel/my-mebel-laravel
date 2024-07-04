@@ -60,15 +60,15 @@ class UserController extends Controller
 
 
 
-                // ACTIVATE USER AFTER SENDING A CONFIRMATION E-MAIL AND USER CLICKS ON LINK INSIDE THAT E-MAIL
-                $email = $data['email']; // the user's email that they entered while submitting the registration form
+                // // ACTIVATE USER AFTER SENDING A CONFIRMATION E-MAIL AND USER CLICKS ON LINK INSIDE THAT E-MAIL
+                // $email = $data['email']; // the user's email that they entered while submitting the registration form
 
-                // The email message data/variables that will be passed in to the email view
-                $messageData = [
-                    'name'   => $data['name'],   // the user's name that they entered while submitting the registration form
-                    'email'  => $data['email'],  // the user's email that they entered while submitting the registration form
-                    'code'   => base64_encode($data['email']) // We base64 code the user's $email and send it as a Route Parameter from resources/views/emails/confirmation.blade.php to the 'user/confirm/{code}' route in web.php, then it gets base64 de-coded again in confirmUser() method in Front/UserController.php    // We will use the opposite: base64_decode() in the confirmUser() method to decode the encoded string (encode X decode)
-                ];
+                // // The email message data/variables that will be passed in to the email view
+                // $messageData = [
+                //     'name'   => $data['name'],   // the user's name that they entered while submitting the registration form
+                //     'email'  => $data['email'],  // the user's email that they entered while submitting the registration form
+                //     'code'   => base64_encode($data['email']) // We base64 code the user's $email and send it as a Route Parameter from resources/views/emails/confirmation.blade.php to the 'user/confirm/{code}' route in web.php, then it gets base64 de-coded again in confirmUser() method in Front/UserController.php    // We will use the opposite: base64_decode() in the confirmUser() method to decode the encoded string (encode X decode)
+                // ];
 
                 // Redirect user back with a success message
                 $redirectTo = url('user/login-register'); // redirect user to the front/users/login_register.blade.php    // Check that route in web.php
@@ -214,9 +214,9 @@ class UserController extends Controller
                     'email'  => $email // the user's email that they entered while submitting the registration form
                     // 'code'   => base64_encode($data['email']) // We base64 code the user's $email and send it as a Route Parameter from user_confirmation.blade.php to the 'user/confirm/{code}' route in web.php, then it gets base64 decoded again in confirmUser() method in Front/UserController.php    // we will use the opposite: base64_decode() in the confirmAccount() method (encode X decode)
                 ];
-                \Illuminate\Support\Facades\Mail::send('emails.register', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.register' is the register.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that register.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
-                    $message->to($email)->subject('Welcome to My Mebel');
-                });
+                // \Illuminate\Support\Facades\Mail::send('emails.register', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.register' is the register.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that register.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
+                //     $message->to($email)->subject('Welcome to My Mebel');
+                // });
 
                 // Note: Here, we have TWO options, either redirect user with a success message or Log the user In IMMDEIATELY, AUTOMATICALLY and DIRECTLY
 

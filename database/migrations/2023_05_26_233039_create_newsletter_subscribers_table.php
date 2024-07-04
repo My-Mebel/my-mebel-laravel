@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('email');
-            $table->tinyInteger('status'); // 0 value to disable sending newsletter emails to the user, 1 to enable them
+            $table->tinyInteger('status')->default(1); // 0 value to disable sending newsletter emails to the user, 1 to enable them
 
             $table->timestamps();
         });

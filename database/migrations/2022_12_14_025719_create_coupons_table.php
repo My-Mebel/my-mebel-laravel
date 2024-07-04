@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('amount_type'); // 'Percentage' or 'Fixed': The discount is either a 'percentage' (i.e. 20%), or a 'fixed' amount (i.e. 20 USD)
             $table->float('amount');
             $table->date('expiry_date'); // MySQL date format Y-M-D    // Coupon expiry date
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
 
             $table->timestamps();
         });

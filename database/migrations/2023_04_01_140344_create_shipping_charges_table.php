@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->string('country');
             $table->float('rate'); // the shipping rate (cost/charges/price) of that specific country (Every country has its own shipping charges rate)
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
 
             $table->timestamps();
         });

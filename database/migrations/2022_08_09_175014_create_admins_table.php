@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('image')->nullable();
-            $table->enum('confirm', ['No', 'Yes']); // added later    // "No" is the default value    
-            $table->tinyInteger('status');
+            $table->enum('confirm', ['Yes', 'No']); // added later    // "Yes" is the default value    
+            $table->tinyInteger('status')->default(1);
     
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('filter_id');
             $table->string('filter_value');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
 
             $table->timestamps();
         });

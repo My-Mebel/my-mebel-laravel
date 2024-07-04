@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('link');
             $table->string('title'); // 'title' HTML attribute (for SEO purposes)
             $table->string('alt'); // 'alt' <img> HTML attribute (for SEO purposes)
-            $table->tinyInteger('status'); // 0 means inactive, 1 means active
+            $table->tinyInteger('status')->default(1); // 0 means inactive, 1 means active
 
             $table->timestamps();
         });

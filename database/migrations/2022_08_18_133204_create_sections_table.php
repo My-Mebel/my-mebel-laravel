@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->tinyInteger('status'); // 0 ative, 1 inactive
+            $table->tinyInteger('status')->default(1); // 0 ative, 1 inactive
 
             $table->timestamps();
         });

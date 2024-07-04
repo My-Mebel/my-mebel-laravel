@@ -20,7 +20,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name'); // `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'    // 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!    // 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
 
             $table->timestamps();
         });

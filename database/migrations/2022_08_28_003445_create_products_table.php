@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('meta_keywords')->nullable();  // For SEO
             $table->string('meta_description')->nullable(); // For SEO
             $table->enum('is_featured', ['No', 'Yes']); // "No" is the default value
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
 
             $table->timestamps();
         });

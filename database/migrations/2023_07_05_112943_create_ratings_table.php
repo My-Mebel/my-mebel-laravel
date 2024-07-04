@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('product_id');
             $table->text('review');
             $table->integer('rating');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
 
             $table->timestamps();
         });
