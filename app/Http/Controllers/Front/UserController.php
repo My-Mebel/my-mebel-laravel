@@ -29,7 +29,7 @@ class UserController extends Controller
             $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
                 // the 'name' HTML attribute of the request (the array key of the $request array) (ATTRIBUTE) => Validation Rules
                 'name'     => 'required|string|max:100',
-                'mobile'   => 'required|numeric|digits:11',
+                'mobile'   => 'required|regex:/^\+?[0-9]{10,15}$/',
                 'email'    => 'required|email|max:150|unique:users', // 'unique:users'    means it's unique in the `users` table
                 'password' => 'required|min:6',
                 'accept'   => 'required'
@@ -310,12 +310,7 @@ class UserController extends Controller
             $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
                 // the 'name' HTML attribute of the request (the array key of the $request array) (ATTRIBUTE) => Validation Rules
                 'name'    => 'required|string|max:100',
-                'city'    => 'required|string|max:100',
-                'state'   => 'required|string|max:100',
-                'address' => 'required|string|max:100',
-                'country' => 'required|string|max:100',
-                'mobile'  => 'required|numeric|digits:11',
-                'pincode' => 'required|digits:6',
+                'mobile'  => 'required|regex:/^\+?[0-9]{10,15}$/',
 
             ] /*, [ // Customizing The Error Messages: https://laravel.com/docs/9.x/validation#manual-customizing-the-error-messages
                 // the 'name' HTML attribute of the request (the array key of the $request array) (ATTRIBUTE) => Custom Messages
@@ -333,11 +328,6 @@ class UserController extends Controller
                 User::where('id', Auth::user()->id)->update([ // Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
                     'name'    => $data['name'],    // $data['name']       comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
                     'mobile'  => $data['mobile'],  // $data['mobile']     comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
-                    'city'    => $data['city'],    // $data['city']       comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
-                    'state'   => $data['state'],   // $data['state']      comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
-                    'country' => $data['country'], // $data['country']    comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
-                    'pincode' => $data['pincode'], // $data['pincode']    comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
-                    'address' => $data['address'], // $data['address']    comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
                 ]);
 
                 // Redirect user back with a success message
@@ -358,10 +348,11 @@ class UserController extends Controller
 
         } else { // if it's a 'GET' request, render front/users/user_account.blade.php
             // Fetch all of the world countries from the database table `countries`
-            $countries = \App\Models\Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 (to ignore the blacklisted countries, in case)
+            // $countries = \App\Models\Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 (to ignore the blacklisted countries, in case)
 
 
-            return view('front.users.user_account')->with(compact('countries'));
+            return view('front.users.user_account');
+            // ->with(compact('countries'));
         }
     }
 
