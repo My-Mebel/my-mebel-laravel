@@ -572,7 +572,7 @@
                                                 @foreach($ratings as $rating)
                                                     <div class="review-data">
                                                         <div class="reviewer-name-and-date">
-                                                            <h6 class="reviewer-name">{{ $rating['user']['name'] }}</h6>
+                                                            <h6 class="reviewer-name">Anonymous</h6>
                                                             <h6 class="review-posted-date">{{ date('d-m-Y H:i:s', strtotime($rating['created_at'])) }}</h6>
                                                         </div>
                                                         <div class="reviewer-stars-title-body">
