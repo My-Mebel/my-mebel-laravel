@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\ProductsFilter;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,7 +28,7 @@ class DatabaseSeeder extends Seeder
         // Note: Check the Seeder Classes files: CategoriesTableSeeder, ProductsTableSeeder, ... etc!!!
         // Database Seeding: Check    AdminsTableSeeder.php    // Calling Additional Seeders: https://laravel.com/docs/9.x/seeding#calling-additional-seeders
         // Databas Seeding
-        
+
         $this->call(AdminsTableSeeder::class);
         $this->call(VendorsTableSeeder::class);
         $this->call(VendorsBusinessDetailsTableSeeder::class);
@@ -42,11 +41,12 @@ class DatabaseSeeder extends Seeder
         $this->call(BannersTableSeeder::class);
         $this->call(FiltersTableSeeder::class);
         $this->call(FiltersValuesTableSeeder::class);
-        $this->call(CouponsTableSeeder::class);              
-        $this->call(DeliveryAddressTableSeeder::class);      
-        $this->call(OrderStatusTableSeeder::class);          
-        $this->call(OrderItemStatusTableSeeder::class);      
-        $this->call(NewsletterSubscriberTableSeeder::class); 
-        $this->call(RatingsTableSeeder::class);              
+        $this->call(CouponsTableSeeder::class);
+        $this->call(DeliveryAddressTableSeeder::class);
+        $this->call(OrderStatusTableSeeder::class);
+        $this->call(OrderItemStatusTableSeeder::class);
+        $this->call(NewsletterSubscriberTableSeeder::class);
+        $this->call(RatingsTableSeeder::class);
+        $this->call(CountriesTableSeeder::class);
     }
 }
