@@ -23,10 +23,10 @@ class AdminsTableSeeder extends Seeder
         $adminRecords = [
             [
                 'id'        => 1,
-                'name'      => 'Ahmed Yahya',
+                'name'      => 'Keyisa',
                 'type'      => 'superadmin',
                 'vendor_id' => 0, // `vendor_id` is zero 0 because 'type' is not 'vendor' (it's actually 'superadmin')
-                'mobile'    => '9800000000',
+                'mobile'    => '08111111111',
                 'email'     => 'admin@admin.com',
                 'password'  => '$2a$12$xvkjSScUPRexfcJTAy9ATutIeGUuRgJrjDIdL/.xlrddEvRZINpeC', // This is the encryption of '123456'    // using https://bcrypt-generator.com/
                 'image'     => '',
@@ -37,11 +37,11 @@ class AdminsTableSeeder extends Seeder
 
             [
                 'id'        => 2,
-                'name'      => 'John Singh - Vendor',
+                'name'      => 'Raihan',
                 'type'      => 'vendor',
                 'vendor_id' => 1, // `vendor_id` is one 1 because 'type' is 'vendor'
-                'mobile'    => '9700000000',
-                'email'     => 'yasser@admin.com',
+                'mobile'    => '08222222222',
+                'email'     => 'vendor@admin.com',
                 'password'  => '$2a$12$xvkjSScUPRexfcJTAy9ATutIeGUuRgJrjDIdL/.xlrddEvRZINpeC', // This is the encryption of '123456'    // using https://bcrypt-generator.com/
                 'image'     => '',
                 'status'    => 1, // Our authentication logic in the login() method in the AdminController won't allow this admin logging in in case of 'status' = 0

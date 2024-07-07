@@ -23,11 +23,11 @@ class CategoriesTableSeeder extends Seeder
                 'id'                => 1,
                 'parent_id'         => 0, // 0 because like Men, Women categories that don't have a prent category
                 'section_id'        => 1, // 1 is the parent 'Cloting' section
-                'category_name'     => 'Men',
+                'category_name'     => 'Table',
                 'category_image'    => '',
                 'category_discount' => 0,
-                'description'       => '',
-                'url'               => 'men',
+                'description'       => 'This is cafe table',
+                'url'               => 'table',
                 'meta_title'        => '',
                 'meta_description'  => '',
                 'meta_keywords'     => '',
@@ -36,12 +36,12 @@ class CategoriesTableSeeder extends Seeder
             [
                 'id'                => 2,
                 'parent_id'         => 0, // 0 because like Men, Women categories that don't have a prent category
-                'section_id'        => 1, // 1 is the parent 'Cloting' section
-                'category_name'     => 'Women',
+                'section_id'        => 2, // 1 is the parent 'Cloting' section
+                'category_name'     => 'Chair',
                 'category_image'    => '',
                 'category_discount' => 0,
-                'description'       => '',
-                'url'               => 'women',
+                'description'       => 'This is casual chair',
+                'url'               => 'chair',
                 'meta_title'        => '',
                 'meta_description'  => '',
                 'meta_keywords'     => '',
@@ -50,12 +50,12 @@ class CategoriesTableSeeder extends Seeder
             [
                 'id'                => 3,
                 'parent_id'         => 0, // 0 because like Men, Women categories that don't have a prent category
-                'section_id'        => 1, // 1 is the parent 'Cloting' section
-                'category_name'     => 'Kids',
+                'section_id'        => 3, // 1 is the parent 'Cloting' section
+                'category_name'     => 'Wall',
                 'category_image'    => '',
                 'category_discount' => 0,
                 'description'       => '',
-                'url'               => 'kids',
+                'url'               => 'dinding',
                 'meta_title'        => '',
                 'meta_description'  => '',
                 'meta_keywords'     => '',

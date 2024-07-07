@@ -20,14 +20,14 @@ class VendorsTableSeeder extends Seeder
         $vendorRecords = [
             [
                 'id'      => 1,
-                'name'    => 'Yasser Fouaad - Vendor',
-                'address' => '17 El-Salam St.',
-                'city'    => 'Maadi',
-                'state'   => 'Cairo',
-                'country' => 'Egypt',
-                'pincode' => '110001',
-                'mobile'  => '9700000000',
-                'email'   => 'yasser@admin.com',
+                'name'    => 'Raihan',
+                'address' => 'Surabaya',
+                'city'    => 'Surabaya',
+                'state'   => 'Surabaya',
+                'country' => 'Indonesia',
+                'pincode' => '111111',
+                'mobile'  => '08222222222',
+                'email'   => 'vendor@admin.com',
                 'status'  => 1,
             ],
         ];
