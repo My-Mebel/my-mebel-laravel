@@ -47,23 +47,22 @@ class AdminController extends Controller
                 }
             ])->where('vendor_id', $vendor_id)->get();
 
-            $productsCount   = $products->count();
+            $productsCount = $products->count();
             $categoriesCount = $products->pluck('category.id')->unique()->count();
             $sectionsCount = $products->pluck('section.id')->unique()->count();
-            $ordersCount     = OrdersProduct::where('vendor_id', $vendor_id)->count();
-            $couponsCount    = Coupon::count();
-            $brandsCount     = Brand::count();
-            $usersCount      = User::count();
+            $ordersCount = OrdersProduct::where('vendor_id', $vendor_id)->count();
+            $couponsCount = Coupon::count();
+            $brandsCount = $products->pluck('brand.id')->unique()->count();
+            $usersCount = -1; // Not needed for vendors
         } else {
-            $sectionsCount   = Section::count();
+            $sectionsCount = Section::count();
             $categoriesCount = Category::count();
-            $productsCount   = Product::count();
-            $ordersCount     = Order::count();
-            $couponsCount    = Coupon::count();
-            $brandsCount     = Brand::count();
-            $usersCount      = User::count();
+            $productsCount = Product::count();
+            $ordersCount = Order::count();
+            $couponsCount = Coupon::count();
+            $brandsCount = Brand::count();
+            $usersCount = User::count();
         }
-
 
         return view('admin/dashboard')->with(compact('sectionsCount', 'categoriesCount', 'productsCount', 'ordersCount', 'couponsCount', 'brandsCount', 'usersCount')); // is the same as:    return view('admin.dashboard');
     }
@@ -76,13 +75,13 @@ class AdminController extends Controller
 
             // Validation
             $rules = [
-                'email'    => 'required|email|max:255',
+                'email' => 'required|email|max:255',
                 'password' => 'required',
             ];
 
             $customMessages = [ // Specifying A Custom Message For A Given Attribute: https://laravel.com/docs/9.x/validation#specifying-a-custom-message-for-a-given-attribute
-                'email.required'    => 'Email Address is required!',
-                'email.email'       => 'Valid Email Address is required',
+                'email.required' => 'Email Address is required!',
+                'email.email' => 'Valid Email Address is required',
                 'password.required' => 'Password is required!',
             ];
 
@@ -176,15 +175,15 @@ class AdminController extends Controller
             // Laravel's Validation
             // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
             $rules = [
-                'admin_name'   => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                'admin_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
                 'admin_mobile' => 'required|numeric',
             ];
 
             $customMessages = [ // Specifying A Custom Message For A Given Attribute: https://laravel.com/docs/9.x/validation#specifying-a-custom-message-for-a-given-attribute
-                'admin_name.required'   => 'Name is required',
-                'admin_name.regex'      => 'Valid Name is required',
+                'admin_name.required' => 'Name is required',
+                'admin_name.regex' => 'Valid Name is required',
                 'admin_mobile.required' => 'Mobile is required',
-                'admin_mobile.numeric'  => 'Valid Mobile is required',
+                'admin_mobile.numeric' => 'Valid Mobile is required',
             ];
 
             $this->validate($request, $rules, $customMessages);
@@ -218,9 +217,9 @@ class AdminController extends Controller
 
             // Update Admin Details
             Admin::where('id', Auth::guard('admin')->user()->id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                'name'   => $data['admin_name'],
+                'name' => $data['admin_name'],
                 'mobile' => $data['admin_mobile'],
-                'image'  => $imageName
+                'image' => $imageName
             ]); // Note that the image name is the random image name that we generated
 
             return redirect()->back()->with('success_message', 'Admin details updated successfully!');
@@ -244,18 +243,18 @@ class AdminController extends Controller
 
                 // Laravel's Validation    // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
                 $rules = [
-                    'vendor_name'   => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
-                    'vendor_city'   => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                    'vendor_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                    'vendor_city' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
                     'vendor_mobile' => 'required|numeric',
                 ];
 
                 $customMessages = [ // Specifying A Custom Message For A Given Attribute: https://laravel.com/docs/9.x/validation#specifying-a-custom-message-for-a-given-attribute
-                    'vendor_name.required'   => 'Name is required',
-                    'vendor_city.required'   => 'City is required',
-                    'vendor_city.regex'      => 'Valid City alphabetical is required',
-                    'vendor_name.regex'      => 'Valid Name is required',
+                    'vendor_name.required' => 'Name is required',
+                    'vendor_city.required' => 'City is required',
+                    'vendor_city.regex' => 'Valid City alphabetical is required',
+                    'vendor_name.regex' => 'Valid Name is required',
                     'vendor_mobile.required' => 'Mobile is required',
-                    'vendor_mobile.numeric'  => 'Valid Mobile is required',
+                    'vendor_mobile.numeric' => 'Valid Mobile is required',
                 ];
 
                 $this->validate($request, $rules, $customMessages);
@@ -290,18 +289,18 @@ class AdminController extends Controller
                 // Vendor details need to be updated in BOTH `admins` and `vendors` tables:
                 // Update Vendor Details in 'admins' table
                 Admin::where('id', Auth::guard('admin')->user()->id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                    'name'   => $data['vendor_name'],
+                    'name' => $data['vendor_name'],
                     'mobile' => $data['vendor_mobile'],
-                    'image'  => $imageName
+                    'image' => $imageName
                 ]); // Note that the image name is the random image name that we generated
 
                 // Update Vendor Details in 'vendors' table
                 Vendor::where('id', Auth::guard('admin')->user()->vendor_id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                    'name'    => $data['vendor_name'],
-                    'mobile'  => $data['vendor_mobile'],
+                    'name' => $data['vendor_name'],
+                    'mobile' => $data['vendor_mobile'],
                     'address' => $data['vendor_address'],
-                    'city'    => $data['vendor_city'],
-                    'state'   => $data['vendor_state'],
+                    'city' => $data['vendor_city'],
+                    'state' => $data['vendor_state'],
                     'country' => $data['vendor_country'],
                     'pincode' => $data['vendor_pincode'],
                 ]);
@@ -324,19 +323,19 @@ class AdminController extends Controller
 
                 // Laravel's Validation    // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
                 $rules = [
-                    'shop_name'           => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
-                    'shop_city'           => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
-                    'shop_mobile'         => 'required|numeric',
-                    'address_proof'       => 'required',
+                    'shop_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                    'shop_city' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                    'shop_mobile' => 'required|numeric',
+                    'address_proof' => 'required',
                 ];
 
                 $customMessages = [ // Specifying A Custom Message For A Given Attribute: https://laravel.com/docs/9.x/validation#specifying-a-custom-message-for-a-given-attribute
-                    'shop_name.required'           => 'Name is required',
-                    'shop_city.required'           => 'City is required',
-                    'shop_city.regex'              => 'Valid City alphabetical is required',
-                    'shop_name.regex'              => 'Valid Shop Name is required',
-                    'shop_mobile.required'         => 'Mobile is required',
-                    'shop_mobile.numeric'          => 'Valid Mobile is required',
+                    'shop_name.required' => 'Name is required',
+                    'shop_city.required' => 'City is required',
+                    'shop_city.regex' => 'Valid City alphabetical is required',
+                    'shop_name.regex' => 'Valid Shop Name is required',
+                    'shop_mobile.required' => 'Mobile is required',
+                    'shop_mobile.numeric' => 'Valid Mobile is required',
                 ];
 
                 $this->validate($request, $rules, $customMessages);
@@ -370,37 +369,37 @@ class AdminController extends Controller
                 if ($vendorCount > 0) { // if there's a vendor already existing, them UPDATE
                     // UPDATE `vendors_business_details` table
                     VendorsBusinessDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                        'shop_name'               => $data['shop_name'],
-                        'shop_mobile'             => $data['shop_mobile'],
-                        'shop_website'            => $data['shop_website'],
-                        'shop_address'            => $data['shop_address'],
-                        'shop_city'               => $data['shop_city'],
-                        'shop_state'              => $data['shop_state'],
-                        'shop_country'            => $data['shop_country'],
-                        'shop_pincode'            => $data['shop_pincode'],
+                        'shop_name' => $data['shop_name'],
+                        'shop_mobile' => $data['shop_mobile'],
+                        'shop_website' => $data['shop_website'],
+                        'shop_address' => $data['shop_address'],
+                        'shop_city' => $data['shop_city'],
+                        'shop_state' => $data['shop_state'],
+                        'shop_country' => $data['shop_country'],
+                        'shop_pincode' => $data['shop_pincode'],
                         'business_license_number' => $data['business_license_number'],
-                        'gst_number'              => $data['gst_number'],
-                        'pan_number'              => $data['pan_number'],
-                        'address_proof'           => $data['address_proof'],
-                        'address_proof_image'     => $imageName,
+                        'gst_number' => $data['gst_number'],
+                        'pan_number' => $data['pan_number'],
+                        'address_proof' => $data['address_proof'],
+                        'address_proof_image' => $imageName,
                     ]);
                 } else { // if there's no vendor already existing, then INSERT
                     // INSERT INTO `vendors_business_details` table
                     VendorsBusinessDetail::insert([
-                        'vendor_id'               => Auth::guard('admin')->user()->vendor_id, // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                        'shop_name'               => $data['shop_name'],
-                        'shop_mobile'             => $data['shop_mobile'],
-                        'shop_website'            => $data['shop_website'],
-                        'shop_address'            => $data['shop_address'],
-                        'shop_city'               => $data['shop_city'],
-                        'shop_state'              => $data['shop_state'],
-                        'shop_country'            => $data['shop_country'],
-                        'shop_pincode'            => $data['shop_pincode'],
+                        'vendor_id' => Auth::guard('admin')->user()->vendor_id, // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                        'shop_name' => $data['shop_name'],
+                        'shop_mobile' => $data['shop_mobile'],
+                        'shop_website' => $data['shop_website'],
+                        'shop_address' => $data['shop_address'],
+                        'shop_city' => $data['shop_city'],
+                        'shop_state' => $data['shop_state'],
+                        'shop_country' => $data['shop_country'],
+                        'shop_pincode' => $data['shop_pincode'],
                         'business_license_number' => $data['business_license_number'],
-                        'gst_number'              => $data['gst_number'],
-                        'pan_number'              => $data['pan_number'],
-                        'address_proof'           => $data['address_proof'],
-                        'address_proof_image'     => $imageName,
+                        'gst_number' => $data['gst_number'],
+                        'pan_number' => $data['pan_number'],
+                        'address_proof' => $data['address_proof'],
+                        'address_proof_image' => $imageName,
                     ]);
                 }
 
@@ -428,18 +427,18 @@ class AdminController extends Controller
                 // Laravel's Validation    // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
                 $rules = [
                     'account_holder_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
-                    'bank_name'           => 'required', // only alphabetical characters and spaces
-                    'account_number'      => 'required|numeric',
-                    'bank_ifsc_code'      => 'required',
+                    'bank_name' => 'required', // only alphabetical characters and spaces
+                    'account_number' => 'required|numeric',
+                    'bank_ifsc_code' => 'required',
                 ];
 
                 $customMessages = [ // Specifying A Custom Message For A Given Attribute: https://laravel.com/docs/9.x/validation#specifying-a-custom-message-for-a-given-attribute
                     'account_holder_name.required' => 'Account Holder Name is required',
-                    'bank_name.required'           => 'Bank Name is required',
-                    'account_holder_name.regex'    => 'Valid Account Holder Name is required',
-                    'account_number.required'      => 'Account Number is required',
-                    'account_number.numeric'       => 'Valid Account Number is required',
-                    'bank_ifsc_code.required'      => 'Bank IFSC Code is required',
+                    'bank_name.required' => 'Bank Name is required',
+                    'account_holder_name.regex' => 'Valid Account Holder Name is required',
+                    'account_number.required' => 'Account Number is required',
+                    'account_number.numeric' => 'Valid Account Number is required',
+                    'bank_ifsc_code.required' => 'Bank IFSC Code is required',
                 ];
 
                 $this->validate($request, $rules, $customMessages);
@@ -450,18 +449,18 @@ class AdminController extends Controller
                     // UPDATE `vendors_bank_details` table
                     VendorsBankDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
                         'account_holder_name' => $data['account_holder_name'],
-                        'bank_name'           => $data['bank_name'],
-                        'account_number'      => $data['account_number'],
-                        'bank_ifsc_code'      => $data['bank_ifsc_code'],
+                        'bank_name' => $data['bank_name'],
+                        'account_number' => $data['account_number'],
+                        'bank_ifsc_code' => $data['bank_ifsc_code'],
                     ]);
                 } else { // if there's no vendor already existing, then INSERT
                     // INSERT INTO `vendors_bank_details` table
                     VendorsBankDetail::insert([
-                        'vendor_id'           => Auth::guard('admin')->user()->vendor_id, // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                        'vendor_id' => Auth::guard('admin')->user()->vendor_id, // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
                         'account_holder_name' => $data['account_holder_name'],
-                        'bank_name'           => $data['bank_name'],
-                        'account_number'      => $data['account_number'],
-                        'bank_ifsc_code'      => $data['bank_ifsc_code'],
+                        'bank_name' => $data['bank_name'],
+                        'account_number' => $data['account_number'],
+                        'bank_ifsc_code' => $data['bank_ifsc_code'],
                     ]);
                 }
 
@@ -572,8 +571,8 @@ class AdminController extends Controller
 
                 // The email message data/variables that will be passed in to the email view
                 $messageData = [
-                    'email'  => $adminDetails['email'],
-                    'name'   => $adminDetails['name'],
+                    'email' => $adminDetails['email'],
+                    'name' => $adminDetails['name'],
                     'mobile' => $adminDetails['mobile'],
                 ];
 
@@ -586,7 +585,7 @@ class AdminController extends Controller
 
 
             return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
-                'status'   => $status,
+                'status' => $status,
                 'admin_id' => $data['admin_id']
             ]);
         }
