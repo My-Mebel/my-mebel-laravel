@@ -853,7 +853,6 @@ class ProductsController extends Controller
                     return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
                         'status'         => true,
                         'totalCartItems' => $totalCartItems, // totalCartItems() function is in our custom Helpers/Helper.php file that we have registered in 'composer.json' file    // We created the CSS class 'totalCartItems' in front/layout/header.blade.php to use it in front/js/custom.js to update the total cart items via AJAX, because in pages that we originally use AJAX to update the cart items (such as when we delete a cart item in http://127.0.0.1:8000/cart using AJAX), the number doesn't change in the header automatically because AJAX is already used and no page reload/refresh has occurred
-                        'couponAmount'   => $couponAmount,
                         'grand_total'    => $grand_total,
                         'message'        => $message,
                         // We'll use that array key 'view' as a JavaScript 'response' property to render the view (    $('#appendCartItems').html(resp.view);    ). Check front/js/custom.js
@@ -896,16 +895,15 @@ class ProductsController extends Controller
             $total_weight = $total_weight + $product_weight;
         }
 
-
         $deliveryAddresses = DeliveryAddress::deliveryAddresses(); // the delivery addresses of the currently authenticated/logged in user
 
 
         // Calculating the Shipping Charges of every one of the user's Delivery Addresses (depending on the 'country' of the Delivery Address)    
         foreach ($deliveryAddresses as $key => $value) {
-            $shippingCharges = ShippingCharge::getShippingCharges($total_weight, $value['country']);
+            // $shippingCharges = ShippingCharge::getShippingCharges($total_weight, $value['country']);
 
             // Append/Add the Shipping Charge of every Delivery Address (depending on the 'country' of the Delivery Addresss) to the $deliveryAddresses array
-            $deliveryAddresses[$key]['shipping_charges'] = $shippingCharges;
+            $deliveryAddresses[$key]['shipping_charges'] = 0;
 
             // Checking PIN code availability of BOTH COD and Prepaid PIN codes in BOTH `cod_pincodes` and `prepaid_pincodes` tables    
             // Check if the COD PIN code of that Delivery Address of the user exists in `cod_pincodes` table    
@@ -968,15 +966,6 @@ class ProductsController extends Controller
                 return redirect()->back()->with('error_message', $message);
             }
 
-            // Agree to T&C (Accept Terms and Conditions) Validation
-            if (empty($data['accept'])) { // if the user doesn't select a Delivery Address
-                $message = 'Please agree to T&C!';
-
-                return redirect()->back()->with('error_message', $message);
-            }
-
-
-
             // If user passes Validation, we start Placing Order:
 
 
@@ -1018,10 +1007,11 @@ class ProductsController extends Controller
             $shipping_charges = 0;
 
             // Get the Shipping Charge based on the chosen Delivery Address    
-            $shipping_charges = ShippingCharge::getShippingCharges($total_weight, $deliveryAddress['country']);
+            // $shipping_charges = ShippingCharge::getShippingCharges($total_weight, $deliveryAddress['country']);
+            $shipping_charges = 0;
 
             // Grand Total (`grand_total`)
-            $grand_total = $total_price + $shipping_charges - Session::get('couponAmount');
+            $grand_total = $total_price + $shipping_charges;
 
             // Store the $grand_total in Session to be able to use it wherever we need it later on (for example, it'll be used in front/paypal/paypal.blade.php and front/iyzipay/iyzipay.blade.php)
             Session::put('grand_total', $grand_total); // Storing Data: https://laravel.com/docs/10.x/session#storing-data
@@ -1168,7 +1158,6 @@ class ProductsController extends Controller
 
             return redirect('thanks'); // redirect to front/products/thanks.blade.php page
         }
-
 
         return view('front.products.checkout')->with(compact('deliveryAddresses', 'countries', 'getCartItems', 'total_price'));
     }

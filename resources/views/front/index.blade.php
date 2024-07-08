@@ -103,10 +103,6 @@
                                                             alt="Product">
                                                     @endif
                                                 </a>
-                                                <div class="item-action-behaviors">
-                                                    <a class="item-quick-look" data-toggle="modal" href="#quick-view">Quick
-                                                        Look</a>
-                                                </div>
                                             </div>
                                             <div class="item-content">
                                                 <div class="what-product-is">
@@ -202,10 +198,6 @@
                                                             alt="Product">
                                                     @endif
                                                 </a>
-                                                <div class="item-action-behaviors">
-                                                    <a class="item-quick-look" data-toggle="modal" href="#quick-view">Quick
-                                                        Look</a>
-                                                </div>
                                             </div>
                                             <div class="item-content">
                                                 <div class="what-product-is">
@@ -294,10 +286,6 @@
                                                             alt="Product">
                                                     @endif
                                                 </a>
-                                                <div class="item-action-behaviors">
-                                                    <a class="item-quick-look" data-toggle="modal"
-                                                        href="#quick-view">Quick Look</a>
-                                                </div>
                                             </div>
                                             <div class="item-content">
                                                 <div class="what-product-is">
@@ -386,10 +374,6 @@
                                                             alt="Product">
                                                     @endif
                                                 </a>
-                                                <div class="item-action-behaviors">
-                                                    <a class="item-quick-look" data-toggle="modal"
-                                                        href="#quick-view">Quick Look</a>
-                                                </div>
                                             </div>
                                             <div class="item-content">
                                                 <div class="what-product-is">

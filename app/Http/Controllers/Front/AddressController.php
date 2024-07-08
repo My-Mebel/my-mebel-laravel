@@ -44,8 +44,8 @@ class AddressController extends Controller
                 'delivery_city'    => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
                 'delivery_state'   => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
                 'delivery_country' => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
-                'delivery_pincode' => 'required|digits:6',         // digits:value: https://laravel.com/docs/9.x/validation#rule-digits
-                'delivery_mobile'  => 'required|numeric|digits:10' // digits:value: https://laravel.com/docs/9.x/validation#rule-digits
+                'delivery_pincode' => 'required|digits_between:5,6',         // digits:value: https://laravel.com/docs/9.x/validation#rule-digits
+                'delivery_mobile'  => 'required|numeric|regex:/^\+?[0-9]{10,15}$/' // digits:value: https://laravel.com/docs/9.x/validation#rule-digits
             ]);
 
             if ($validator->passes()) { // if the user passes validation, add a new (INSERT) or edit (UPDATE) the delivery address

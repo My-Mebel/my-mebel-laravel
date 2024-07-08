@@ -200,8 +200,7 @@
                                                 </td>
                                                 <td>
                                                     <h3 class="order-h3">
-                                                        <strong class="grand_total">Rp.
-                                                            {{ $total_price - \Illuminate\Support\Facades\Session::get('couponAmount') }}</strong>
+                                                        <strong class="grand_total">Rp. {{ $total_price }}</strong>
                                                         {{-- We create the 'grand_total' CSS class to use it as a handle for AJAX inside    $('#applyCoupon').submit();    function in front/js/custom.js --}} {{-- We stored the 'couponAmount' a Session Variable inside the applyCoupon() method in Front/ProductsController.php --}}
                                                     </h3>
                                                 </td>
@@ -229,14 +228,6 @@
                                         <label class="label-text" for="iyzipay">iyzipay</label>
                                     </div>
 
-
-                                    <div class="u-s-m-b-13">
-                                        <input type="checkbox" class="check-box" id="accept" name="accept"
-                                            value="Yes" title="Please agree to T&C">
-                                        <label class="label-text no-color" for="accept">I’ve read and accept the
-                                            <a href="terms-and-conditions.html" class="u-c-brand">terms & conditions</a>
-                                        </label>
-                                    </div>
                                     <button type="submit" id="placeOrder" class="button button-outline-secondary">Place
                                         Order</button> {{-- Show our Preloader/Loader/Loading Page/Preloading Screen while the <form> is submitted using the    id="placeOrder"    HTML attribute. Check front/js/custom.js --}}
                                 </div>

@@ -4,31 +4,54 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <table style="width: 700px">
-            <tr><td>&nbsp;</td></tr>
-            <tr><td><img src="{{ asset('front/images/main-logo/main-logo.png') }}"></td></tr>
-            <tr><td>&nbsp;</td></tr>
-            <tr><td>Hello {{ $name }}</td></tr>
-            <tr><td>&nbsp;<br></td></tr>
-            <tr><td>Your Order #{{ $order_id }} status has been updated to {{ $order_status }}</td></tr>
-            <tr><td>&nbsp;</td></tr>
 
-            
-            @if (!empty($courier_name) && !empty($tracking_number))
-                <tr>
-                    <td>Courier Name is {{ $courier_name }} and Tracking Number is {{ $tracking_number }}</td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-            @endif
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
 
-            <tr><td>Your Order details are as below:</td></tr>
-            <tr><td>&nbsp;</td></tr>
-            <tr><td>
+<body>
+    <table style="width: 700px">
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td><img src="{{ asset('front/images/main-logo/main-logo.png') }}"></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Hello {{ $name }}</td>
+        </tr>
+        <tr>
+            <td>&nbsp;<br></td>
+        </tr>
+        <tr>
+            <td>Your Order #{{ $order_id }} status has been updated to {{ $order_status }}</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+
+
+        @if (!empty($courier_name) && !empty($tracking_number))
+            <tr>
+                <td>Courier Name is {{ $courier_name }} and Tracking Number is {{ $tracking_number }}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+        @endif
+
+        <tr>
+            <td>Your Order details are as below:</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
                 <table style="width: 95%" cellpadding="5" cellspacing="5" bgcolor="#f7f4f4">
                     <tr bgcolor="#cccccc">
                         <td>Product Name</td>
@@ -50,12 +73,12 @@
                     @endforeach
                     <tr>
                         <td colspan="5" align="right">Shipping Charges</td>
-                        <td>INR {{ $orderDetails['shipping_charges'] }}</td>
+                        <td>IDR {{ $orderDetails['shipping_charges'] }}</td>
                     </tr>
                     <tr>
                         <td colspan="5" align="right">Coupon Discount</td>
                         <td>
-                            INR
+                            IDR
                             @if ($orderDetails['coupon_amount'] > 0)
                                 {{ $orderDetails['coupon_amount'] }}
                             @else
@@ -65,12 +88,16 @@
                     </tr>
                     <tr>
                         <td colspan="5" align="right">Grand Total</td>
-                        <td>INR {{ $orderDetails['grand_total'] }}</td>
+                        <td>IDR {{ $orderDetails['grand_total'] }}</td>
                     </tr>
                 </table>
-            </td></tr>
-            <tr><td>&nbsp;</td></tr>
-            <tr><td>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
                 <table>
                     <tr>
                         <td><strong>Delivery Address:</strong></td>
@@ -96,13 +123,25 @@
                     <tr>
                         <td>{{ $orderDetails['mobile'] }}</td>
                     </tr>
-                </table>    
-            </td></tr>
-            <tr><td>&nbsp;</td></tr>
-            <tr><td>For any queries, you can contact us at <a href="mailto:info@my-mebel.com">info@my-mebel.com</a></td></tr>
-            <tr><td>&nbsp;</td></tr>
-            <tr><td>Regards,<br>Team My Mebel</td></tr>
-            <tr><td>&nbsp;</td></tr>
-        </table>
-    </body>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>For any queries, you can contact us at <a href="mailto:info@my-mebel.com">info@my-mebel.com</a></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Regards,<br>Team My Mebel</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+</body>
+
 </html>
