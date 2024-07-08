@@ -14,7 +14,7 @@ class OrderStatusTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
         // Note: Check DatabaseSeeder.php!
         $orderStatusRecords = [
             [

@@ -113,7 +113,7 @@
                             <td>{{ $product['product_qty'] }}</td>
                             <td>{{ $product['item_status'] }}</td>
                             <td>
-                                <form action="{{ url('user/return-order/' . $product['id']) }}" method="POST">
+                                <form action="{{ url('user/return-order/' . $product['id']) .'/'.$orderDetails['id'] }}" method="POST">
                                     @csrf
                                     <button type="submit">Return</button>
                                 </form>

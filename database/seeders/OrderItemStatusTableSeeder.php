@@ -14,7 +14,7 @@ class OrderItemStatusTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
         // Note: Check DatabaseSeeder.php!
         $orderItemStatusRecords = [
             [
@@ -35,6 +35,11 @@ class OrderItemStatusTableSeeder extends Seeder
             [
                 'id'     => 4,
                 'name'   => 'Delivered',
+                'status' => 1
+            ],
+            [
+                'id'     => 5,
+                'name'   => 'Returned',
                 'status' => 1
             ]
         ];
