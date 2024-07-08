@@ -32,11 +32,7 @@ class UserController extends Controller
                 'mobile'   => 'required|regex:/^\+?[0-9]{10,15}$/',
                 'email'    => 'required|email|max:150|unique:users', // 'unique:users'    means it's unique in the `users` table
                 'password' => 'required|min:6',
-                'accept'   => 'required'
 
-            ], [ // Customizing The Error Messages: https://laravel.com/docs/9.x/validation#manual-customizing-the-error-messages
-                // the 'name' HTML attribute of the request (the array key of the $request array) (ATTRIBUTE) => Custom Messages
-                'accept.required' => 'Please accept our Terms & Conditions'
             ]);
 
 

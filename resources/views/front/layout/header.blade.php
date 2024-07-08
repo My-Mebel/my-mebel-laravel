@@ -116,8 +116,8 @@ $sections = \App\Models\Section::sections();
                         <a href="{{ url('/') }}">
 
 
-                            <img src="{{ asset('front/images/main-logo/main-logo.png') }}"
-                                alt="My Mebel" class="app-brand-logo">
+                            <img src="{{ asset('front/images/main-logo/main-logo.svg') }}" alt="My Mebel"
+                                class="app-brand-logo">
                         </a>
                     </div>
                 </div>

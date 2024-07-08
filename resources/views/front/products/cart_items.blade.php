@@ -136,7 +136,7 @@
                             @if (\Illuminate\Support\Facades\Session::has('couponAmount')) {{-- We stored the 'couponAmount' in a Session Variable inside the applyCoupon() method in Front/ProductsController.php --}}
                                 Rp. {{ \Illuminate\Support\Facades\Session::get('couponAmount') }}
                             @else
-                                EGP0
+                                Rp. 0
                             @endif
                         </span>
                     </td>

@@ -29,7 +29,6 @@ class VendorController extends Controller
                 'name'          => 'required',
                 'email'         => 'required|email|unique:admins|unique:vendors',  // 'unique:admins' and 'unique:vendors' means check the `admins` table and `vendors` table for the `mobile` uniqueness: https://laravel.com/docs/9.x/validation#rule-unique
                 'mobile'        => 'required|regex:/^\+?[0-9]{10,15}$/|unique:admins|unique:vendors', // 'unique:admins' and 'unique:vendors' means check the `admins` table and `vendors` table for the `mobile` uniqueness: https://laravel.com/docs/9.x/validation#rule-unique    // 'min:10|numeric' is the mobile number validation
-                'accept'        => 'required'
             ];
 
             $customMessages = [ // Specifying A Custom Message For A Given Attribute: https://laravel.com/docs/9.x/validation#specifying-a-custom-message-for-a-given-attribute
@@ -39,7 +38,6 @@ class VendorController extends Controller
                 'email.unique'              => 'Email alreay exists',
                 'mobile.required'           => 'Mobile is required',
                 'mobile.unique'             => 'Mobile alreay exists',
-                'accept.required'           => 'Please accept Terms & Conditions',
             ];
 
             $validator = Validator::make($data, $rules, $customMessages); // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
