@@ -24,6 +24,7 @@ use App\Models\VendorsBusinessDetail;
 use App\Models\VendorsBankDetail;
 use App\Models\Country;
 use Illuminate\Support\Facades\Hash;
+use App\Models\OrdersProduct;
 
 class AdminController extends Controller
 {
@@ -32,14 +33,36 @@ class AdminController extends Controller
         // Correcting issues in the Skydash Admin Panel Sidebar using Session:
         Session::put('page', 'dashboard');
 
+        // Modify the last $products variable so that ONLY products that BELONG TO the 'vendor' show up in (not ALL products show up) in products.blade.php, and also make sure that the 'vendor' account is active/enabled/approved (`status` is 1) before they can access the products page    
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
 
-        $sectionsCount   = Section::count();
-        $categoriesCount = Category::count();
-        $productsCount   = Product::count();
-        $ordersCount     = Order::count();
-        $couponsCount    = Coupon::count();
-        $brandsCount     = Brand::count();
-        $usersCount      = User::count();
+        if ($adminType == 'vendor') {
+            $products = Product::with([ // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries
+                'section' => function ($query) { // the 'section' relationship method in Product.php Model
+                    $query->select('id', 'name'); // Important Note: It's a MUST to select 'id' even if you don't need it, because the relationship Foreign Key `product_id` depends on it, or else the `product` relationship would give you 'null'!
+                },
+                'category' => function ($query) { // the 'category' relationship method in Product.php Model
+                    $query->select('id', 'category_name'); // Important Note: It's a MUST to select 'id' even if you don't need it, because the relationship Foreign Key `product_id` depends on it, or else the `product` relationship would give you 'null'!
+                }
+            ])->where('vendor_id', $vendor_id)->get();
+
+            $productsCount   = $products->count();
+            $categoriesCount = $products->pluck('category.id')->unique()->count();
+            $sectionsCount = $products->pluck('section.id')->unique()->count();
+            $ordersCount     = OrdersProduct::where('vendor_id', $vendor_id)->count();
+            $couponsCount    = Coupon::count();
+            $brandsCount     = Brand::count();
+            $usersCount      = User::count();
+        } else {
+            $sectionsCount   = Section::count();
+            $categoriesCount = Category::count();
+            $productsCount   = Product::count();
+            $ordersCount     = Order::count();
+            $couponsCount    = Coupon::count();
+            $brandsCount     = Brand::count();
+            $usersCount      = User::count();
+        }
 
 
         return view('admin/dashboard')->with(compact('sectionsCount', 'categoriesCount', 'productsCount', 'ordersCount', 'couponsCount', 'brandsCount', 'usersCount')); // is the same as:    return view('admin.dashboard');
