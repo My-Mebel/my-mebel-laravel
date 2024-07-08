@@ -10,6 +10,6 @@ class OrderItemStatus extends Model
     use HasFactory;
 
     protected $attributes = [
-        'item_status' => 1,
+        'item_status' => 'Pending',
     ];
 }

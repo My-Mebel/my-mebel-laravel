@@ -42,7 +42,7 @@
                                 </td>
                                 <td> {{-- We'll display products codes --}}
                                     @foreach ($order['orders_products'] as $product)
-                                        {{ $product['product_code'] }}
+                                    <a href="{{ url('user/orders/' . $order['id']) }}">{{ $product['product_code'] }}</a>
                                         <br>
                                     @endforeach
                                 </td>

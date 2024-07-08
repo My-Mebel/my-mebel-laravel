@@ -15,7 +15,7 @@ class OrderController extends Controller
             // Get all the orders of the currently authenticated/logged-in user
             $orders = Order::with('orders_products')->where('user_id', \Illuminate\Support\Facades\Auth::user()->id)->orderBy('id', 'Desc')->get()->toArray(); // Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user    // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model
             // dd($orders);
-
+            
 
             return view('front.orders.orders')->with(compact('orders'));
 

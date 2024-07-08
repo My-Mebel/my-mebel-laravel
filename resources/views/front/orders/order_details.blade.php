@@ -64,7 +64,7 @@
                         </tr>
                     @endif
 
-                    
+
                     @if ($orderDetails['courier_name'] != '')
                         <tr>
                             <td>Courier Name</td>
@@ -91,6 +91,8 @@
                         <th>Product Size</th>
                         <th>Product Color</th>
                         <th>Product Qty</th>
+                        <th>Product Status</th>
+                        <th>Action</th>
                     </tr>
 
                     @foreach ($orderDetails['orders_products'] as $product)
@@ -100,7 +102,8 @@
                                     $getProductImage = \App\Models\Product::getProductImage($product['product_id']);
                                 @endphp
                                 <a target="_blank" href="{{ url('product/' . $product['product_id']) }}">
-                                    <img style="width: 80px" src="{{ asset('front/images/product_images/small/' . $getProductImage) }}">
+                                    <img style="width: 80px"
+                                        src="{{ asset('front/images/product_images/small/' . $getProductImage) }}">
                                 </a>
                             </td>
                             <td>{{ $product['product_code'] }}</td>
@@ -108,15 +111,22 @@
                             <td>{{ $product['product_size'] }}</td>
                             <td>{{ $product['product_color'] }}</td>
                             <td>{{ $product['product_qty'] }}</td>
+                            <td>{{ $product['item_status'] }}</td>
+                            <td>
+                                <form action="{{ url('user/return-order/' . $product['id']) }}" method="POST">
+                                    @csrf
+                                    <button type="submit">Return</button>
+                                </form>
+                            </td>                            
                         </tr>
 
-                        
+
                         @if ($product['courier_name'] != '')
                             <tr>
-                                <td colspan="6">Courier Name: {{ $product['courier_name'] }}, Tracking Number: {{ $product['tracking_number'] }}</td>
+                                <td colspan="6">Courier Name: {{ $product['courier_name'] }}, Tracking Number:
+                                    {{ $product['tracking_number'] }}</td>
                             </tr>
                         @endif
-
                     @endforeach
                 </table>
 
