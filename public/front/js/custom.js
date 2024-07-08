@@ -510,62 +510,6 @@ $(document).ready(function () {
         });
     });
 
-    // Coupon Code redemption (Apply coupon) / Coupon Code HTML Form submission in front/products/cart_items.blade.php
-    // Note: For Coupons, user must be logged in (authenticated) to be able to redeem them. Both 'admins' and 'vendors' can add Coupons. Coupons added by 'vendor' will be available for their products ONLY, but ones added by 'admins' will be available for ALL products.
-    $("#applyCoupon").submit(function () {
-        // When the Coupon <form> is submitted
-        var user = $(this).attr("user");
-        // console.log(user);
-
-        if (user == 1) {
-            // if the user is logged in (authenticated), they can apply coupon (redeem coupons)
-        } else {
-            // if the user is unauthenticated/logged-out
-            alert("Please login to apply Coupon!");
-            return false; // Get out of the WHOLE function!
-        }
-
-        var code = $("#code").val();
-        // console.log(code);
-
-        $.ajax({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            }, // X-CSRF-TOKEN: https://laravel.com/docs/9.x/csrf#csrf-x-csrf-token
-            url: "/apply-coupon", // check this route in web.php
-            type: "post",
-            data: { code: code }, // Sending name/value pairs to server with the AJAX request (AJAX call)
-            success: function (resp) {
-                // if the AJAX request is successful
-                // alert(resp.couponAmount);
-
-                if (resp.message != "") {
-                    alert(resp.message);
-                }
-
-                $(".totalCartItems").html(resp.totalCartItems); // totalCartItems() function is in our custom Helpers/Helper.php file that we have registered in 'composer.json' file    // We created the CSS class 'totalCartItems' in front/layout/header.blade.php to use it in front/js/custom.js to update the total cart items via AJAX, because in pages that we originally use AJAX to update the cart items (such as when we delete a cart item in http://127.0.0.1:8000/cart using AJAX), the number doesn't change in the header automatically because AJAX is already used and no page reload/refresh has occurred
-                $("#appendCartItems").html(resp.view); // 'view' is sent as a PHP array key (in the HTTP response from the server (backend)) from inside the applyCoupon() method in Front/ProductsController.php
-                $("#appendHeaderCartItems").html(resp.headerview); // 'headerview' is sent as a PHP array key (in the HTTP response from the server (backend)) from inside the applyCoupon() method in Front/ProductsController.php
-
-                if (resp.couponAmount > 0) {
-                    // if there's a coupon code submitted and it's valid        // 'couponAmount' is sent as a PHP array key (in the HTTP response from the server (backend)) from inside the applyCoupon() method in Front/ProductsController.php
-                    $(".couponAmount").text("Rp. " + resp.couponAmount); // 'couponAmount' is sent as a PHP array key (in the HTTP response from the server (backend)) from inside the applyCoupon() method in Front/ProductsController.php
-                } else {
-                    $(".couponAmount").text("Rp.  0");
-                }
-
-                if (resp.grand_total > 0) {
-                    // if there's a coupon code submitted and it's valid        // 'grand_total' is sent as a PHP array key (in the HTTP response from the server (backend)) from inside the applyCoupon() method in Front/ProductsController.php
-                    $(".grand_total").text("Rp. " + resp.grand_total); // 'grand_total' is sent as a PHP array key (in the HTTP response from the server (backend)) from inside the applyCoupon() method in Front/ProductsController.php
-                }
-            },
-            error: function () {
-                // if the AJAX request is unsuccessful
-                alert("Error");
-            },
-        });
-    });
-
     // Edit Delivery Addresses via AJAX (Page refresh and fill in the <input> fields with the authenticated/logged in user Delivery Addresses details from the `delivery_addresses` database table when clicking on the Edit button) in front/products/delivery_addresses.blade.php (which is 'include'-ed in front/products/checkout.blade.php) via AJAX, check front/js/custom.js
     $(document).on("click", ".editAddress", function () {
         var addressid = $(this).data("addressid"); // We use the jQuery data() function to get the Custom HTML Attribute value
@@ -682,45 +626,69 @@ $(document).ready(function () {
     });
 
     // Calculate the Grand Total, Shipping Charges and Coupon Amount and displaying them depending on the chosen Delivery Address in front/products/checkout.blade.php
-    $("input[name=address_id]").bind("change", function () {
-        var shipping_charges = $(this).attr("shipping_charges"); // using Custom HTML data attributes (data-*)
-        var total_price = $(this).attr("total_price"); // using Custom HTML data attributes (data-*)
-        var coupon_amount = $(this).attr("coupon_amount"); // using Custom HTML data attributes (data-*)
-        // alert(shipping_charges);
+    // $("input[name=address_id]").bind("change", function () {
+    //     var shipping_charges = $(this).attr("shipping_charges"); // using Custom HTML data attributes (data-*)
+    //     var total_price = $(this).attr("total_price"); // using Custom HTML data attributes (data-*)
+    //     // alert(shipping_charges);
 
-        // Display the Shipping Charges
-        $(".shipping_charges").html("Rp. " + shipping_charges);
+    //     // Display the Shipping Charges
+    // $(".shipping_charges").html("Rp. " + shipping_charges);
 
-        // Show the right Payment Methods radio buttons in front/products/checkout.blade.php based on Getting the results of checking if both the COD and Prepaid PIN codes of the user's Delviery Address exist in our both `cod_pincodes` and `prepaid_pincodes` database tables. Check the checkout() method in Front/ProductsController.php and front/products/checkout.blade.php
-        // var codpincodeCount = $(this).attr("codpincodeCount"); // using Custom HTML data attributes (data-*)
-        // var prepaidpincodeCount = $(this).attr("prepaidpincodeCount"); // using Custom HTML data attributes (data-*)
-        // if (codpincodeCount > 0) {
-        //     $(".codMethod").show();
-        // } else {
-        //     $(".codMethod").hide();
-        // }
+    //     // Show the right Payment Methods radio buttons in front/products/checkout.blade.php based on Getting the results of checking if both the COD and Prepaid PIN codes of the user's Delviery Address exist in our both `cod_pincodes` and `prepaid_pincodes` database tables. Check the checkout() method in Front/ProductsController.php and front/products/checkout.blade.php
+    //     // var codpincodeCount = $(this).attr("codpincodeCount"); // using Custom HTML data attributes (data-*)
+    //     // var prepaidpincodeCount = $(this).attr("prepaidpincodeCount"); // using Custom HTML data attributes (data-*)
+    //     // if (codpincodeCount > 0) {
+    //     //     $(".codMethod").show();
+    //     // } else {
+    //     //     $(".codMethod").hide();
+    //     // }
 
-        // if (prepaidpincodeCount > 0) {
-        //     $(".prepaidMethod").show();
-        // } else {
-        //     $(".prepaidMethod").hide();
-        // }
+    //     // if (prepaidpincodeCount > 0) {
+    //     //     $(".prepaidMethod").show();
+    //     // } else {
+    //     //     $(".prepaidMethod").hide();
+    //     // }
 
-        // if (coupon_amount == "") {
-        //     coupon_amount = 0;
-        // }
+    //     // Calculate the Grand Total
+    //     var grand_total = parseInt(total_price) + parseInt(shipping_charges);
 
-        // Display the Coupon Amount
-        // $(".couponAmount").html("Rp. " + coupon_amount);
+    //     // alert(grand_total);
 
-        // Calculate the Grand Total
-        var grand_total = parseInt(total_price) + parseInt(shipping_charges);
-        // - parseInt(coupon_amount);
-        // alert(grand_total);
+    //     // Display the Grand Total
+    //     $(".grand_total").html("Rp. " + grand_total);
+    // });
 
-        // Display the Grand Total
-        $(".grand_total").html("Rp. " + grand_total);
-    });
+    $("select[name=expedition_service], select[name=expedition_packet]").bind(
+        "change",
+        () => {
+            var service_charge = parseInt(
+                $("select[name=expedition_service]")
+                    .find("option:selected")
+                    .attr("price") || 0
+            );
+            var packet_charge = parseInt(
+                $("select[name=expedition_packet]")
+                    .find("option:selected")
+                    .attr("price") || 0
+            );
+
+            var shipping_charges = service_charge + packet_charge;
+            $(".shipping_charges").html("Rp. " + shipping_charges);
+
+            var total_price = parseInt(
+                $("select[name=expedition_service]")
+                    .find("option:selected")
+                    .attr("total_price") ||
+                    $("select[name=expedition_packet]")
+                        .find("option:selected")
+                        .attr("total_price") ||
+                    0
+            );
+            var grand_total = total_price + shipping_charges;
+
+            $(".grand_total").html("Rp. " + grand_total);
+        }
+    );
 
     // PIN code Availability Check: check if the PIN code of the user's Delivery Address exists in our database (in both `cod_pincodes` and `prepaid_pincodes`) or not in front/products/detail.blade.php via AJAX
     $("#checkPincode").click(function () {

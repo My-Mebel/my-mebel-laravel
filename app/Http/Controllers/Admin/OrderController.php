@@ -232,7 +232,7 @@ class OrderController extends Controller
             // dd($data);
 
             // Update Order Item Status in `orders_products` table
-            OrdersProduct::where('id', $data['order_item_id'])->update(['item_status' => $data['order_item_status']]);
+            OrdersProdct::where('id', $data['order_item_id'])->update(['item_status' => $data['order_item_status']]);
 
 
             // Note: There are two types of Shipping Process: "manual" and "automatic". "Manual" is in the case like small businesses, where the courier arrives at the owner warehouse to to pick up the order for shipping, and the small business owner takes the shipment details (like courier name, tracking number, ...) from the courier, and inserts those details themselves in the Admin Panel when they "Update Order Status" Section (by an 'admin') or "Update Item Status" Section (by a 'vendor' or 'admin') (in admin/orders/order_details.blade.php). With "automatic" shipping process, we're integrating third-party APIs and orders go directly to the shipping partner, and the updates comes from the courier's end, and orders are automatically delivered to customers

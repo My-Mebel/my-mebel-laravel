@@ -870,7 +870,9 @@ class ProductsController extends Controller
     public function checkout(Request $request) {
         // Fetch all of the world countries from the database table `countries`
         $countries = Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 (to ignore the blacklisted countries, in case)
-        
+        $services = [['id' => 1, 'name' => 'Standard Delivery', 'price' => 10000], ['id' => 2, 'name' => 'Express Delivery', 'price' => 10000]];
+        $packets = [['id' => 1, 'name' => 'Packet 1', 'price' => 2000], ['id' => 2, 'name' => 'Packet 2', 'price' => 4000], ['id' => 3, 'name' => 'Packet 3', 'price' => 6000]];
+
         // Get the Cart Items of a cerain user (using their `user_id` if they're authenticated/logged in or their `session_id` if they're not authenticated/not logged in (guest))    
         $getCartItems = Cart::getCartItems();
 
@@ -885,7 +887,7 @@ class ProductsController extends Controller
         // Calculate the total price    
         $total_price  = 0;
         $total_weight = 0;
-
+        
         foreach ($getCartItems as $item) {
             $attrPrice = Product::getDiscountAttributePrice($item['product_id'], $item['size']);
             $total_price = $total_price + ($attrPrice['final_price'] * $item['quantity']);
@@ -950,11 +952,24 @@ class ProductsController extends Controller
                 return redirect('/cart')->with('error_message', $message); // Redirect to the Cart page with an error message
             }
 
-
             // Validation:
             // Delivery Address Validation
             if (empty($data['address_id'])) { // if the user doesn't select a Delivery Address
                 $message = 'Please select Delivery Address!';
+
+                return redirect()->back()->with('error_message', $message);
+            }
+
+            // Expedition Service Validation
+            if (is_null($data['expedition_service'])) { 
+                $message = 'Please select Expedition Service!';
+
+                return redirect()->back()->with('error_message', $message);
+            }
+
+            // Expedition Packet Validation
+            if (is_null($data['expedition_packet'])) { 
+                $message = 'Please select Expedition Packet!';
 
                 return redirect()->back()->with('error_message', $message);
             }
@@ -967,7 +982,6 @@ class ProductsController extends Controller
             }
 
             // If user passes Validation, we start Placing Order:
-
 
             // Note: For the Orders module, we created two database tables: orders and orders_products tables. The first one holds/stores the main information about the orders of a user (e.g. delivery address, coupon code, shipping, payment method, ...etc), and the second one holds/stores the detailed information about the order (the items/products that are bought by the order and product name, code, color, size, price, ...etc). There is a one-to-many relationship between the two tables where one order can have many order products.
 
@@ -1159,7 +1173,7 @@ class ProductsController extends Controller
             return redirect('thanks'); // redirect to front/products/thanks.blade.php page
         }
 
-        return view('front.products.checkout')->with(compact('deliveryAddresses', 'countries', 'getCartItems', 'total_price'));
+        return view('front.products.checkout')->with(compact('deliveryAddresses', 'countries', 'getCartItems', 'total_price', 'services', 'packets'));
     }
 
 

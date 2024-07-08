@@ -37,31 +37,14 @@
                 </div>
             @endif
 
-
-
             <div class="row">
                 <div class="col-lg-12 col-md-12">
 
                     <!-- Second Accordion /- -->
 
                     <div class="row">
-                        <!-- Billing-&-Shipping-Details -->
-                        <div class="col-lg-6" id="deliveryAddresses"> {{-- We created this id="deliveryAddresses" to use it as a handle for jQuery AJAX to refresh this page, check front/js/custom.js --}}
-
-
-
-
-
-                            @include('front.products.delivery_addresses')
-
-
-
-                        </div>
-                        <!-- Billing-&-Shipping-Details /- -->
                         <!-- Checkout -->
                         <div class="col-lg-6">
-
-
 
                             {{-- The complete HTML Form of the user submitting their Delivery Address and Payment Method --}}
                             <form name="checkoutForm" id="checkoutForm" action="{{ url('/checkout') }}" method="post">
@@ -82,7 +65,6 @@
                                                 value="{{ $address['id'] }}"
                                                 shipping_charges="{{ $address['shipping_charges'] }}"
                                                 total_price="{{ $total_price }}"
-                                                coupon_amount="{{ \Illuminate\Support\Facades\Session::get('couponAmount') }}"
                                                 codpincodeCount="{{ $address['codpincodeCount'] }}"
                                                 prepaidpincodeCount="{{ $address['prepaidpincodeCount'] }}">
                                             {{-- $total_price variable is passed in from checkout() method in Front/ProductsController.php --}} {{-- We created the Custom HTML Attribute id="address{{ $address['id'] }}" to get the UNIQUE ids of the addresses in order for the <label> HTML element to be able to point for that <input> --}}
@@ -104,6 +86,50 @@
                                     <br>
                                 @endif
 
+                                <h4 class="section-h4">Expedition</h4>
+                                <div class="group-inline u-s-m-b-13">
+                                    <div class="group-1 u-s-p-r-16">
+                                        <label for="expedition_service">Service
+                                            <span class="astk">*</span>
+                                        </label>
+                                        <div class="select-box-wrapper">
+                                            <select class="select-box" id="expedition_service" name="expedition_service">
+                                                <option value="" total_price="{{ $total_price }}">Select Service
+                                                </option>
+
+                                                @foreach ($services as $service)
+                                                    <option value="{{ $service['id'] }}" price="{{ $service['price'] }}"
+                                                        total_price="{{ $total_price }}">
+                                                        {{ $service['name'] }} (Rp. {{ $service['price'] }})
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+                                            <p id="expedition_service"></p> {{-- This <p> tag will be used by jQuery to show the Validation Error Messages (Laravel's Validation Error Messages) from the AJAX call response from the server (backend) --}}
+                                            {{-- We structure and use a certain pattern so that the <p> id pattern must be like: delivery-x (e.g. delivery-mobile, delivery-email, ... in order for the jQuery loop to work. And x must be identical to the 'name' HTML attributes (e.g. the <input> with the    name='mobile'    HTML attribute must have a <p> with an id HTML attribute    id="delivery-mobile"    ) so that when the vaildation errors array is sent as a response from backend/server (check $validator->messages()    inside    the method inside the controller) to the AJAX request, they could conveniently/easily be handled by the jQuery $.each() loop. Check front/js/custom.js) --}}
+                                        </div>
+                                    </div>
+                                    <div class="group-2">
+                                        <label for="expedition_packet">Packet
+                                            <span class="astk">*</span>
+                                        </label>
+                                        <div class="select-box-wrapper">
+                                            <select class="select-box" id="expedition_packet" name="expedition_packet">
+                                                <option value="" total_price="{{ $total_price }}">Select Packet
+                                                </option>
+
+                                                @foreach ($packets as $packet)
+                                                    <option value="{{ $packet['id'] }}" price="{{ $packet['price'] }}"
+                                                        total_price="{{ $total_price }}">
+                                                        {{ $packet['name'] }} (Rp. {{ $packet['price'] }})
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+                                            <p id="expedition_packet"></p> {{-- This <p> tag will be used by jQuery to show the Validation Error Messages (Laravel's Validation Error Messages) from the AJAX call response from the server (backend) --}} {{-- We structure and use a certain pattern so that the <p> id pattern must be like: delivery-x (e.g. delivery-mobile, delivery-email, ... in order for the jQuery loop to work. And x must be identical to the 'name' HTML attributes (e.g. the <input> with the    name='mobile'    HTML attribute must have a <p> with an id HTML attribute    id="delivery-mobile"    ) so that when the vaildation errors array is sent as a response from backend/server (check $validator->messages()    inside    the method inside the controller) to the AJAX request, they could conveniently/easily be handled by the jQuery $.each() loop. Check front/js/custom.js) --}}
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <h4 class="section-h4">Your Order</h4>
                                 <div class="order-table">
@@ -179,23 +205,6 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <h6 class="order-h6">Coupon Discount</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="order-h6">
-
-                                                        @if (\Illuminate\Support\Facades\Session::has('couponAmount'))
-                                                            {{-- We stored the 'couponAmount' in a Session Variable inside the applyCoupon() method in Front/ProductsController.php --}}
-                                                            <span class="couponAmount">Rp.
-                                                                {{ \Illuminate\Support\Facades\Session::get('couponAmount') }}</span>
-                                                        @else
-                                                            Rp. 0
-                                                        @endif
-                                                    </h6>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
                                                     <h3 class="order-h3">Grand Total</h3>
                                                 </td>
                                                 <td>
@@ -231,11 +240,21 @@
                                     <button type="submit" id="placeOrder" class="button button-outline-secondary">Place
                                         Order</button> {{-- Show our Preloader/Loader/Loading Page/Preloading Screen while the <form> is submitted using the    id="placeOrder"    HTML attribute. Check front/js/custom.js --}}
                                 </div>
+
                             </form>
 
 
                         </div>
                         <!-- Checkout /- -->
+
+                        <!-- Billing-&-Shipping-Details -->
+                        <div class="col-lg-6" id="deliveryAddresses"> {{-- We created this id="deliveryAddresses" to use it as a handle for jQuery AJAX to refresh this page, check front/js/custom.js --}}
+
+                            @include('front.products.delivery_addresses')
+
+
+                        </div>
+                        <!-- Billing-&-Shipping-Details /- -->
                     </div>
 
                 </div>
