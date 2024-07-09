@@ -40,6 +40,7 @@
                                             <th>Mobile</th>
                                             <th>Email</th>
                                             <th>Status</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -66,6 +67,12 @@
                                                             <i style="font-size: 25px" class="mdi mdi-bookmark-outline" status="Inactive"></i> {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
                                                     @endif
+                                                </td>
+                                                <td>
+                                                    <form action="{{ url('admin/delete-user/' . $user['id']) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit">Delete</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

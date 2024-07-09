@@ -590,4 +590,13 @@ class AdminController extends Controller
             ]);
         }
     }
+
+    public function deleteVendor($id)
+    {
+        $vendor_id = Admin::where('id', $id)->first()->vendor_id; // Getting the `vendor_id` of the vendor that we want to delete
+        Admin::where('id', $id)->delete(); // Deleting an Admin from the Admin Management table
+        Vendor::where('id', $vendor_id)->delete(); // Deleting a Vendor from the Vendors table
+
+        return redirect()->back()->with('success_message', 'Vendor has been deleted successfully!');
+    }
 }

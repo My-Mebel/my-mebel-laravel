@@ -54,6 +54,10 @@
                                                         <a href="{{ url('admin/view-vendor-details/' . $admin['id']) }}">
                                                             <i style="font-size: 25px" class="mdi mdi-file-document"></i> {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
+                                                        <form action="{{ url('admin/delete-vendor/' . $admin['id']) }}" method="POST">
+                                                            @csrf
+                                                            <button type="submit">Delete</button>
+                                                        </form>
                                                     @endif
                                                 </td>
                                             </tr>

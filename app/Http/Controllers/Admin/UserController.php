@@ -47,4 +47,11 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function deleteUser($id)
+    {
+        User::where('id', $id)->delete();
+
+        return redirect()->back()->with('flash_message_success', 'User has been deleted successfully!');
+    }
 }
