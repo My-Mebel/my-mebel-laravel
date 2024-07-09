@@ -318,14 +318,6 @@ class OrderController extends Controller
         }
     }
 
-    public function returnOrderItem($product_id)
-    {
-        // Update Order Item Status in `orders_products` table
-        OrdersProduct::where('id', $product_id)->update(['item_status' => 'Returned']);
-
-        return redirect()->back()->with('success_message', 'Order Item has been returned successfully!');
-    }
-
     // Render order invoice page (HTML) in order_invoice.blade.php    
     public function viewOrderInvoice($order_id)
     { // Route Parameters: Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters

@@ -23,12 +23,20 @@
             </div>
         </div>
     </div>
+    @if (Session::has('success_message'))
+        <!-- Check AdminController.php, updateAdminPassword() method -->
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success:</strong> {{ Session::get('success_message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <!-- Page Introduction Wrapper /- -->
     <!-- Cart-Page -->
     <div class="page-cart u-s-p-t-80">
         <div class="container">
             <div class="row">
-
                 {{-- Orders info table --}}
                 <table class="table table-striped table-borderless">
                     <tr class="table-danger">
@@ -112,12 +120,14 @@
                             <td>{{ $product['product_color'] }}</td>
                             <td>{{ $product['product_qty'] }}</td>
                             <td>{{ $product['item_status'] }}</td>
-                            <td>
-                                <form action="{{ url('user/return-order/' . $product['id']) .'/'.$orderDetails['id'] }}" method="POST">
-                                    @csrf
-                                    <button type="submit">Return</button>
-                                </form>
-                            </td>                            
+                            @if ($product['item_status'] != 'Returned')
+                                <td>
+                                    <form action="{{ url('user/return-order/' . $product['id']) }}" method="POST">
+                                        @csrf
+                                        <button type="submit">Return</button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
 
 

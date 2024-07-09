@@ -297,7 +297,7 @@ Route::namespace('App\Http\Controllers\Front')->group(function () {
         Route::get('user/orders/{id?}', 'OrderController@orders'); // If the slug {id?} (Optional Parameters) is passed in, this means go to the front/orders/order_details.blade.php page, and if not, this means go to the front/orders/orders.blade.php page
 
         // Return Order
-        Route::post('user/return-order/{product_id}}', 'OrderController@returnOrderItem');
+        Route::post('user/return-order/{product_id}', 'OrderController@returnOrderItem');
 
         // PayPal routes:
         // PayPal payment gateway integration in Laravel (this route is accessed from checkout() method in Front/ProductsController.php). Rendering front/paypal/paypal.blade.php page
