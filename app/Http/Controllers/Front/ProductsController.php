@@ -485,12 +485,6 @@ class ProductsController extends Controller
         if ($request->isMethod('post')) { // if the Add to Cart <form> is submitted
             $data = $request->all();
 
-            // Correcting an issue with Coupon Codes when adding an item to the Cart which already has items in it (added before)
-            // We need to remove/empty (forget) the 'couponAmount' and 'couponCode' Session Variables (reset the whole process of Applying the Coupon) whenever a user applies a new coupon, or updates Cart items (changes items quantity for example) or deletes items from the Cart or even Adds new items in the Cart    
-            Session::forget('couponAmount'); // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
-            Session::forget('couponCode');   // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
-
-
             // Prevent the ability to add an item to the Cart with 0 zero quantity
             if ($data['quantity'] <= 0) { // if the ordered quantity is 0, convert it to at least 1
                 $data['quantity'] = 1;
@@ -864,7 +858,42 @@ class ProductsController extends Controller
         }
     }
 
+    public function checkoutNow(Request $request) {
+        $data = $request->all();
+        
+        if ($data['quantity'] <= 0) { // if the ordered quantity is 0, convert it to at least 1
+            $data['quantity'] = 1;
+        }
 
+
+        // Check if the selected product `product_id` with that selected `size` have available `stock` in `products_attributes` table
+        $getProductStock = ProductsAttribute::getProductStock($data['product_id'], $data['size']);
+
+        if ($getProductStock < $data['quantity']) { // if the `stock` available (in `products_attributes` table) is less than the ordered quantity by user (the quantity that the user desires)
+            return redirect()->back()->with('error_message', 'Required Quantity is not available!');
+        }
+
+        if (Auth::check()) { // Here we're using the default 'web' Authentication Guard    // if the user is authenticated/logged in (using the default Laravel Authentication Guard 'web' Guard (check config/auth.php file) whose 'Provider' is the User.php Model i.e. `users` table)    // Determining If The Current User Is Authenticated: https://laravel.com/docs/9.x/authentication#determining-if-the-current-user-is-authenticated
+            $user_id = Auth::user()->id; // Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+
+            // Check if that authenticated/logged in user has already THE SAME product `product_id` with THE SAME `size` (in `carts` table) in the Cart i.e. the `carts` table
+            $countProducts = Cart::where([
+                'user_id'    => $user_id, // THAT EXACT authenticated/logged in user (using their `user_id` because they're authenticated/logged in)
+                'product_id' => $data['product_id'],
+                'size'       => $data['size']
+            ])->count();
+
+        }
+        $item = new Cart; // the `carts` table
+
+        $item->user_id    = $user_id; // depending on the last if statement (whether user is authenticated/logged in or NOT (guest))    // $user_id will be always zero 0 if the user is NOT authenticated/logged in    // When user logins, their `user_id` gets updated (check userLogin() method in UserController.php)
+        $item->product_id = $data['product_id'];
+        $item->size       = $data['size'];
+        $item->quantity   = $data['quantity'];
+        
+        Session::put('item', [$item]);
+        return redirect('/checkout');
+    }
 
     // Checkout page (using match() method for the 'GET' request for rendering the front/products/checkout.blade.php page or the 'POST' request for the HTML Form submission in the same page) (for submitting the user's Delivery Address and Payment Method))    
     public function checkout(Request $request) {
@@ -872,9 +901,13 @@ class ProductsController extends Controller
         $countries = Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 (to ignore the blacklisted countries, in case)
         $services = [['id' => 1, 'name' => 'Standard Delivery', 'price' => 10000], ['id' => 2, 'name' => 'Express Delivery', 'price' => 10000]];
         $packets = [['id' => 1, 'name' => 'Packet 1', 'price' => 2000], ['id' => 2, 'name' => 'Packet 2', 'price' => 4000], ['id' => 3, 'name' => 'Packet 3', 'price' => 6000]];
+        
+        // Get the Cart Items of a cerain user (using their `user_id` if they're authenticated/logged in or their `session_id` if they're not authenticated/not logged in (guest))
+        $getCartItems = Session::get('item');
 
-        // Get the Cart Items of a cerain user (using their `user_id` if they're authenticated/logged in or their `session_id` if they're not authenticated/not logged in (guest))    
-        $getCartItems = Cart::getCartItems();
+        if (is_null($getCartItems)) {
+            $getCartItems = Cart::getCartItems();
+        }
 
         // If the Cart is empty (If there're no Cart Items), don't allow opening/accessing the Checkout page (checkout.blade.php)    
         if (count($getCartItems) == 0) {
@@ -919,7 +952,7 @@ class ProductsController extends Controller
         
         if ($request->isMethod('post')) { // if the <form> in front/products/checkout.blade.php is submitted (the HTML Form that the user submits to submit their Delivery Address and Payment Method)
             $data = $request->all();
-
+            
             // Website Security
             // Note: We need to prevent orders (upon checkout and payment) of the 'disabled' products (`status` = 0), where the product ITSELF can be disabled in admin/products/products.blade.php (by checking the `products` database table) or a product's attribute (`stock`) can be disabled in 'admin/attributes/add_edit_attributes.blade.php' (by checking the `products_attributes` database table). We also prevent orders of the out of stock / sold-out products (by checking the `products_attributes` database table)
             foreach ($getCartItems as $item) {
@@ -1018,10 +1051,6 @@ class ProductsController extends Controller
             }
 
             // Calculate Shipping Charges `shipping_charges`
-            $shipping_charges = 0;
-
-            // Get the Shipping Charge based on the chosen Delivery Address    
-            // $shipping_charges = ShippingCharge::getShippingCharges($total_weight, $deliveryAddress['country']);
             $shipping_charges = 0;
 
             // Grand Total (`grand_total`)
@@ -1169,7 +1198,6 @@ class ProductsController extends Controller
                 echo 'Other Prepaid payment methods coming soon';
             }
 
-
             return redirect('thanks'); // redirect to front/products/thanks.blade.php page
         }
 
@@ -1180,10 +1208,13 @@ class ProductsController extends Controller
 
     // Rendering Thanks page (after placing an order)    
     public function thanks() {
-        if (Session::has('order_id')) { // if there's an order has been placed, empty the Cart (remove the order (the cart items/products) from `carts`table)    // 'user_id' was stored in Session inside checkout() method in Front/ProductsController.php
+        if (Session::has('item') ) {
+            Session::forget('item');
+            
+            return view('front.products.thanks');
+        } else if (Session::has('order_id')) { // if there's an order has been placed, empty the Cart (remove the order (the cart items/products) from `carts`table)    // 'user_id' was stored in Session inside checkout() method in Front/ProductsController.php
             // We empty the Cart after placing the order
             Cart::where('user_id', Auth::user()->id)->delete(); // Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-
 
             return view('front.products.thanks');
         } else { // if there's no order has been placed

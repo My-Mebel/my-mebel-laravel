@@ -720,4 +720,16 @@ $(document).ready(function () {
             },
         });
     });
+
+    $("#buy_now").click(() => {
+        var form = $("#add_to_cart_form")[0];
+
+        if (form.checkValidity()) {
+            form.action = "/checkout-now";
+            form.method = "POST";
+            form.submit();
+        } else {
+            form.reportValidity();
+        }
+    });
 });

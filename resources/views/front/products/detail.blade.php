@@ -283,17 +283,11 @@
 
 
                         {{-- Add to Cart <form> --}} 
-                        <form action="{{ url('cart/add') }}" method="Post" class="post-form">
+                        <form action="{{ url('cart/add') }}" method="Post" class="post-form" id="add_to_cart_form">
                             @csrf {{-- Preventing CSRF Requests: https://laravel.com/docs/9.x/csrf#preventing-csrf-requests --}}
-
-
                             <input type="hidden" name="product_id" value="{{ $productDetails['id'] }}"> {{-- Add to Cart <form> --}} 
 
-
                             <div class="section-5-product-variants u-s-p-y-14">
-
-
-
                                 {{-- Managing Product Colors (using the `group_code` column in `products` table) --}} 
                                 @if (count($groupProducts) > 0) {{-- if there's a value for the `group_code` column (in `products` table) for the currently viewed product --}}
                                     <div>
@@ -339,8 +333,7 @@
                                 </div>
                                 <div>
                                     <button class="button button-outline-secondary" type="submit">Add to cart</button>
-                                    <button class="button button-outline-secondary far fa-heart u-s-m-l-6"></button>
-                                    <button class="button button-outline-secondary far fa-envelope u-s-m-l-6"></button>
+                                    <button class="button button-outline-secondary" type="submit" id="buy_now">Buy Now</button>
                                 </div>
 
 
@@ -367,9 +360,6 @@
                         <div class="detail-nav-wrapper u-s-m-b-30">
                             <ul class="nav single-product-nav justify-content-center">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#video">Product Video</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#detail">Product Details</a>
                                 </li>
                                 <li class="nav-item">
@@ -379,25 +369,6 @@
                             </ul>
                         </div>
                         <div class="tab-content">
-                            <!-- Description-Tab -->
-                            <div class="tab-pane fade active show" id="video">
-                                <div class="description-whole-container">
-
-
-
-                                    @if ($productDetails['product_video'])
-                                        <video controls>
-                                            <source src="{{ url('front/videos/product_videos/' . $productDetails['product_video']) }}" type="video/mp4">
-                                        </video>
-                                    @else
-                                        Product Video does not exist    
-                                    @endif
-
-
-
-                                </div>
-                            </div>
-                            <!-- Description-Tab /- -->
                             <!-- Details-Tab -->
                             <div class="tab-pane fade" id="detail">
                                 <div class="specification-whole-container">
