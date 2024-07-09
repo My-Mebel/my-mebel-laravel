@@ -65,6 +65,11 @@
                                                         <a title="Print PDF Invoice" href="{{ url('admin/orders/invoice/pdf/' . $order['id']) }}" target="_blank">
                                                             <i style="font-size: 25px" class="mdi mdi-file-pdf"></i> {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
+
+                                                        <form action="{{ url('admin/delete-order/' . $order['id']) }}" method="POST">
+                                                            @csrf
+                                                            <button type="submit">Delete</button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             @endif
