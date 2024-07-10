@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\ExpeditionPacket;
+use App\Models\ExpeditionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -899,8 +901,8 @@ class ProductsController extends Controller
     public function checkout(Request $request) {
         // Fetch all of the world countries from the database table `countries`
         $countries = Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 (to ignore the blacklisted countries, in case)
-        $services = [['id' => 1, 'name' => 'Standard Delivery', 'price' => 10000], ['id' => 2, 'name' => 'Express Delivery', 'price' => 10000]];
-        $packets = [['id' => 1, 'name' => 'Packet 1', 'price' => 2000], ['id' => 2, 'name' => 'Packet 2', 'price' => 4000], ['id' => 3, 'name' => 'Packet 3', 'price' => 6000]];
+        $services = ExpeditionService::all()->toArray();
+        $packets = ExpeditionPacket::all()->toArray();
         
         // Get the Cart Items of a cerain user (using their `user_id` if they're authenticated/logged in or their `session_id` if they're not authenticated/not logged in (guest))
         $getCartItems = Session::get('item');
@@ -952,6 +954,7 @@ class ProductsController extends Controller
         
         if ($request->isMethod('post')) { // if the <form> in front/products/checkout.blade.php is submitted (the HTML Form that the user submits to submit their Delivery Address and Payment Method)
             $data = $request->all();
+            // dd($data);
             
             // Website Security
             // Note: We need to prevent orders (upon checkout and payment) of the 'disabled' products (`status` = 0), where the product ITSELF can be disabled in admin/products/products.blade.php (by checking the `products` database table) or a product's attribute (`stock`) can be disabled in 'admin/attributes/add_edit_attributes.blade.php' (by checking the `products_attributes` database table). We also prevent orders of the out of stock / sold-out products (by checking the `products_attributes` database table)
@@ -1051,9 +1054,12 @@ class ProductsController extends Controller
             }
 
             // Calculate Shipping Charges `shipping_charges`
-            $shipping_charges = 0;
+            $expedition_service = ExpeditionService::where('id', $data['expedition_service'])->first()->toArray();
+            $expedition_packet = ExpeditionPacket::where('id', $data['expedition_packet'])->first()->toArray();
+            $shipping_charges = $expedition_service['base_price'] + $expedition_packet['price'];
 
             // Grand Total (`grand_total`)
+
             $grand_total = $total_price + $shipping_charges;
 
             // Store the $grand_total in Session to be able to use it wherever we need it later on (for example, it'll be used in front/paypal/paypal.blade.php and front/iyzipay/iyzipay.blade.php)

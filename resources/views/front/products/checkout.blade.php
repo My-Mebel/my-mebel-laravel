@@ -98,9 +98,9 @@
                                                 </option>
 
                                                 @foreach ($services as $service)
-                                                    <option value="{{ $service['id'] }}" price="{{ $service['price'] }}"
+                                                    <option value="{{ $service['id'] }}" price="{{ $service['base_price'] }}"
                                                         total_price="{{ $total_price }}">
-                                                        {{ $service['name'] }} (Rp. {{ $service['price'] }})
+                                                        {{ $service['name'] }} (Rp. {{ $service['base_price'] }})
                                                     </option>
                                                 @endforeach
 
