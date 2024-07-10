@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use GuzzleHttp\Client;
 
 use App\Models\User;
 use App\Models\Order;
@@ -19,13 +20,73 @@ class OrderController extends Controller
 {
     // Note: In the Admin Panel, in the Orders Management section, if the authenticated/logged-in user is 'vendor', we'll show the orders of the products added by/related to that 'vendor' ONLY, but if the authenticated/logged-in user is 'admin', we'll show ALL orders    
 
+    public function changeMidtransStatus($id)
+    {
+        // Define the URL and the payload
+        try {
+            $url = 'https://api.sandbox.midtrans.com/v1/payment-links/' . $id;
 
+            // Create a Guzzle client
+            $client = new Client();
+            $serverKey = env('MIDTRANS_SERVER_KEY');
+
+            // Send the request with Basic Auth
+            $response = $client->get($url, [
+                'auth' => [$serverKey, '']
+            ]);
+
+            // Decode the response
+            $data = json_decode($response->getBody(), true);
+        } catch (\Exception $e) {
+            return;
+        }
+
+        try {
+            $order_midtrans_id = $data['purchases'][0]['order_id'];
+        } catch (\Exception $e) {
+            $order_midtrans_id = null;
+        }
+
+        if ($order_midtrans_id) {
+            $url = 'https://api.sandbox.midtrans.com/v2/' . $order_midtrans_id . '/status';
+
+            // Create a Guzzle client
+            $client = new Client();
+            $serverKey = env('MIDTRANS_SERVER_KEY');
+
+            // Send the request with Basic Auth
+            $response = $client->get($url, [
+                'auth' => [$serverKey, '']
+            ]);
+
+            // Decode the response
+            $data = json_decode($response->getBody(), true);
+
+            if ($data['transaction_status'] == 'settlement' || $data['transaction_status'] == 'capture') {
+                Order::where('id', $id)->update(['order_status' => 'Paid']);
+                Order::where('id', $id)->update(['payment_gateway' => 'Paid']);
+            } else if ($data['transaction_status'] == 'pending') {
+                Order::where('id', $id)->update(['order_status' => 'Pending']);
+            } else {
+                Order::where('id', $id)->update(['order_status' => 'Canceled']);
+                Order::where('id', $id)->update(['payment_gateway' => 'Canceled']);
+            }
+        }
+    }
 
     // Render admin/orders/orders.blade.php page (Orders Management section) in the Admin Panel    
     public function orders()
     {
+
         // Correcting issues in the Skydash Admin Panel Sidebar using Session
         Session::put('page', 'orders');
+        $orders = Order::all()->toArray();
+
+        foreach ($orders as $key => $order) {
+            if ($order['payment_method'] == 'Prepaid') {
+                $this->changeMidtransStatus($order['id']);
+            }
+        }
 
 
         // We determine the authenticated/logged-in user. If the authenticated/logged-in user is 'vendor', we show ONLY the orders of the products added by that specific 'vendor' ONLY, but if the authenticated/logged-in user is 'admin', we show ALL orders    
