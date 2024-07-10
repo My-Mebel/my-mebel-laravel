@@ -120,7 +120,7 @@
                             <td>{{ $product['product_color'] }}</td>
                             <td>{{ $product['product_qty'] }}</td>
                             <td>{{ $product['item_status'] }}</td>
-                            @if ($product['item_status'] != 'Returned')
+                            @if ($product['item_status'] == 'Delivered')
                                 <td>
                                     <form action="{{ url('user/return-order/' . $product['id']) }}" method="POST">
                                         @csrf

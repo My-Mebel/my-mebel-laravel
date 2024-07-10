@@ -10,7 +10,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Orders</h4>
-                            
+
 
 
                             <div class="table-responsive pt-3">
@@ -34,7 +34,8 @@
                                             // dd($orders); // check if the authenticated/logged-in user is 'vendor' (show ONLY orders of products belonging to them), or 'admin' (show ALL orders)
                                         @endphp
                                         @foreach ($orders as $order)
-                                            @if ($order['orders_products']) {{-- If the 'vendor' has ordered products (if a 'vendor' product has been ordered), show them. Check how we constrained the eager loads using a subquery in orders() method in Admin/OrderController.php inside the if condition --}}
+                                            @if ($order['orders_products'])
+                                                {{-- If the 'vendor' has ordered products (if a 'vendor' product has been ordered), show them. Check how we constrained the eager loads using a subquery in orders() method in Admin/OrderController.php inside the if condition --}}
                                                 <tr>
                                                     <td>{{ $order['id'] }}</td>
                                                     <td>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</td>
@@ -50,25 +51,38 @@
                                                     <td>{{ $order['order_status'] }}</td>
                                                     <td>{{ $order['payment_method'] }}</td>
                                                     <td>
-                                                        <a title="View Order Details" href="{{ url('admin/orders/' . $order['id']) }}">
-                                                            <i style="font-size: 25px" class="mdi mdi-file-document"></i> {{-- Icons from Skydash Admin Panel Template --}}
+                                                        <a title="View Order Details"
+                                                            href="{{ url('admin/orders/' . $order['id']) }}">
+                                                            <i style="font-size: 25px" class="mdi mdi-file-document"></i>
+                                                            {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
                                                         &nbsp;&nbsp;
 
-                                                        {{-- View HTML invoice --}} 
-                                                        <a title="View Order Invoice" href="{{ url('admin/orders/invoice/' . $order['id']) }}" target="_blank">
-                                                            <i style="font-size: 25px" class="mdi mdi-printer"></i> {{-- Icons from Skydash Admin Panel Template --}}
+                                                        {{-- View HTML invoice --}}
+                                                        <a title="View Order Invoice"
+                                                            href="{{ url('admin/orders/invoice/' . $order['id']) }}"
+                                                            target="_blank">
+                                                            <i style="font-size: 25px" class="mdi mdi-printer"></i>
+                                                            {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
                                                         &nbsp;&nbsp;
 
-                                                        {{-- View PDF invoice --}} 
-                                                        <a title="Print PDF Invoice" href="{{ url('admin/orders/invoice/pdf/' . $order['id']) }}" target="_blank">
-                                                            <i style="font-size: 25px" class="mdi mdi-file-pdf"></i> {{-- Icons from Skydash Admin Panel Template --}}
+                                                        {{-- View PDF invoice --}}
+                                                        <a title="Print PDF Invoice"
+                                                            href="{{ url('admin/orders/invoice/pdf/' . $order['id']) }}"
+                                                            target="_blank">
+                                                            <i style="font-size: 25px" class="mdi mdi-file-pdf"></i>
+                                                            {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
 
-                                                        <form action="{{ url('admin/delete-order/' . $order['id']) }}" method="POST">
+                                                        <form action="{{ url('admin/delete-order/' . $order['id']) }}"
+                                                            method="POST">
                                                             @csrf
-                                                            <button type="submit">Delete</button>
+                                                            <button type="submit"
+                                                                style="background: none; border: none; cursor: pointer; padding: 0;">
+                                                                <i style="font-size: 25px; color: red;"
+                                                                    class="mdi mdi-delete"></i>
+                                                            </button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -86,7 +100,8 @@
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2022. All rights reserved.</span>
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2022. All rights
+                    reserved.</span>
             </div>
         </footer>
         <!-- partial -->
