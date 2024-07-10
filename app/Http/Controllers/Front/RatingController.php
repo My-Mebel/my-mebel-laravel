@@ -48,12 +48,12 @@ class RatingController extends Controller
                     $rating->product_id = $data['product_id'];
                     $rating->review     = $data['review'];
                     $rating->rating     = $data['rating'];
-                    $rating->status     = 0; // Will give a default value of 0 (disabled) to enable the admin to approve the rating first
+                    $rating->status     = 1; // Will give a default value of 0 (disabled) to enable the admin to approve the rating first
 
                     $rating->save();
 
                     // Show a Success Message
-                    $message = 'Thanks for rating the product! It\'ll be shown after being approved by an admin!';
+                    $message = 'Thanks for rating the product!';
                     return redirect()->back()->with('success_message', $message);
                 }
             }

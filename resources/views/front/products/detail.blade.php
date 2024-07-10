@@ -198,7 +198,7 @@
 
                                     {{-- Show/Display the Rating Stars --}}
                                     {{-- If the product has been rated at least once, show the "Stars" HTML Entities --}}
-                                    {{-- @if ($avgStarRating > 0) 
+                                    @if ($avgStarRating > 0) 
                                         @php
                                             $star = 1;
                                             while ($star < $avgStarRating):
@@ -211,7 +211,7 @@
                                             endwhile;
                                         @endphp
                                         ({{ $avgRating }})
-                                    @endif --}}
+                                    @endif
 
                                 </div>
                             </div>
@@ -568,7 +568,7 @@
                                     @foreach ($ratings as $rating)
                                         <div class="review-data">
                                             <div class="reviewer-name-and-date">
-                                                <h6 class="reviewer-name">Anonymous</h6>
+                                                <h6 class="reviewer-name">{{ $rating['user']['name'] }}</h6>
                                                 <h6 class="review-posted-date">
                                                     {{ date('d-m-Y H:i:s', strtotime($rating['created_at'])) }}
                                                 </h6>
@@ -578,18 +578,18 @@
 
 
                                                     {{-- Show/Display the Star Rating of the Review/Rating --}}
-                                                    {{-- @php
-                                                                    $count = 0;
+                                                    @php
+                                                        $count = 0;
 
-                                                                    while ($count < $rating['rating']): 
-                                                                @endphp
+                                                        while ($count < $rating['rating']): 
+                                                    @endphp
 
-                                                                        <span style="color: gold">&#9733;</span> 
+                                                            <span style="color: gold">&#9733;</span> 
 
-                                                                @php
-                                                                        $count++;
-                                                                    endwhile;
-                                                                @endphp --}}
+                                                    @php
+                                                            $count++;
+                                                        endwhile;
+                                                    @endphp
 
 
                                                 </div>

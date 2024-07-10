@@ -100,6 +100,8 @@
                         <th>Product Color</th>
                         <th>Product Qty</th>
                         <th>Product Status</th>
+                        <th>Courier Name</th>
+                        <th>Tracking Number</th>
                         <th>Action</th>
                     </tr>
 
@@ -120,6 +122,16 @@
                             <td>{{ $product['product_color'] }}</td>
                             <td>{{ $product['product_qty'] }}</td>
                             <td>{{ $product['item_status'] }}</td>
+                            <td>
+                                @if ($product['courier_name'] != '')
+                                    {{ $product['courier_name'] }}
+                                @endif
+                            </td>
+                            <td>
+                                @if ($product['tracking_number'] != '')
+                                    {{ $product['tracking_number'] }}
+                                @endif
+                            </td>
                             <td style="display: flex; gap: 12px ">
                                 @if ($product['item_status'] == 'Delivered')
                                     <form action="{{ url('user/return-order/' . $product['id']) }}" method="POST">
@@ -130,16 +142,8 @@
                                     <a href="{{ url('product/' . $product['product_id'] . '#reviews') }}"
                                         style="border: none; outline: none; background-color: #375958; color: white; border-radius: 6px; padding: 4px 12px; cursor: pointer;">Review</a>
                                 @endif
-                            </td>   
+                            </td>
                         </tr>
-
-
-                        @if ($product['courier_name'] != '')
-                            <tr>
-                                <td colspan="6">Courier Name: {{ $product['courier_name'] }}, Tracking Number:
-                                    {{ $product['tracking_number'] }}</td>
-                            </tr>
-                        @endif
                     @endforeach
                 </table>
 

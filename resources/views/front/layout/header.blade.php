@@ -28,7 +28,7 @@ $sections = \App\Models\Section::sections();
                         <ul class="g-dropdown" style="width:200px">
                             <li>
                                 <a href="{{ url('cart') }}">
-                                    <i class="fas fa-cog u-s-m-r-9"></i>
+                                    <i class="fas fa-shopping-cart u-s-m-r-9"></i>
                                     My Cart</a>
                             </li>
                             <li>
@@ -44,7 +44,7 @@ $sections = \App\Models\Section::sections();
                                 {{-- Determining If The Current User Is Authenticated: https://laravel.com/docs/9.x/authentication#determining-if-the-current-user-is-authenticated --}}
                                 <li>
                                     <a href="{{ url('user/account') }}">
-                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        <i class="fas fa-user u-s-m-r-9"></i>
                                         My Account
                                     </a>
                                 </li>
@@ -52,7 +52,7 @@ $sections = \App\Models\Section::sections();
 
                                 <li>
                                     <a href="{{ url('user/orders') }}">
-                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        <i class="fas fa-file-alt u-s-m-r-9"></i>
                                         My Orders
                                     </a>
                                 </li>

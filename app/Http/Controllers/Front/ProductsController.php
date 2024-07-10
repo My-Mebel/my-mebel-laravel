@@ -502,7 +502,11 @@ class ProductsController extends Controller
         $totalStock = ProductsAttribute::where('product_id', $id)->sum('stock'); // sum() the `stock` column of the `products_attributes` table    // sum(): https://laravel.com/docs/9.x/collections#method-sum
 
         // if user has ordered the product
-        $hasOrdered = !empty(OrdersProduct::where('product_id', $id)->where('user_id', Auth::user()->id)->get()->toArray());
+        $hasOrdered = false;
+        
+        if (Auth::check()) { // if the user is authenticated/logged in
+            $hasOrdered = !empty(OrdersProduct::where('product_id', $id)->where('user_id', Auth::user()->id)->get()->toArray());
+        }
 
         // Dynamic SEO (HTML meta tags): Check the HTML <meta> tags and <title> tag in front/layout/layout.blade.php    
         $meta_title       = $productDetails['meta_title'];

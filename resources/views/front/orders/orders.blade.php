@@ -49,141 +49,42 @@
         </div>
         <div class="container">
             <div class="tab-content">
-                <div class="row tab-pane active" id="pending">
-                    <table class="table table-striped table-borderless">
-                        <tr class="table-success">
-                            <th>Order ID</th>
-                            <th>Ordered Products</th> {{-- We'll display products codes --}}
-                            <th>Payment Method</th>
-                            <th>Grand Total</th>
-                            <th>Created on</th>
-                            @foreach ($orders['Pending'] as $order)
-                        <tr>
-                            <td>
-                                <a href="{{ url('user/orders/' . $order['id']) }}">{{ $order['id'] }}</a>
-                            </td>
-                            <td> {{-- We'll display products codes --}}
-                                @foreach ($order['orders_products'] as $product)
-                                    <a href="{{ url('user/orders/' . $order['id']) }}">{{ $product['product_code'] }}</a>
-                                    <br>
+                @foreach (['Pending', 'In Progress', 'Shipped', 'Delivered', 'Returned'] as $status)
+                    <div class="row tab-pane {{ $loop->first ? 'active' : '' }}"
+                        id="{{ strtolower(str_replace(' ', '-', $status)) }}">
+                        <table class="table table-striped table-borderless">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Ordered Products</th>
+                                    <th>Payment Method</th>
+                                    <th>Grand Total</th>
+                                    <th>Created on</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($orders[$status] as $order)
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url('user/orders/' . $order['id']) }}">{{ $order['id'] }}</a>
+                                        </td>
+                                        <td>
+                                            @foreach ($order['orders_products'] as $product)
+                                                {{ $product['product_code'] }}
+                                                <br>
+                                            @endforeach
+                                        </td>
+                                        <td>{{ $order['payment_method'] }}</td>
+                                        <td>{{ $order['grand_total'] }}</td>
+                                        <td>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</td>
+                                        <td><a href="{{ url('user/orders/' . $order['id']) }}">View Details</a></td>
+                                    </tr>
                                 @endforeach
-                            </td>
-                            <td>{{ $order['payment_method'] }}</td>
-                            <td>{{ $order['grand_total'] }}</td>
-                            <td>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</td>
-                        </tr>
-                        @endforeach
-                        </tr>
-                    </table>
-                </div>
-                <div class="row tab-pane" id="in-progress">
-                    <table class="table table-striped table-borderless">
-                        <tr class="table-success">
-                            <th>Order ID</th>
-                            <th>Ordered Products</th> {{-- We'll display products codes --}}
-                            <th>Payment Method</th>
-                            <th>Grand Total</th>
-                            <th>Created on</th>
-                            @foreach ($orders['In Progress'] as $order)
-                        <tr>
-                            <td>
-                                <a href="{{ url('user/orders/' . $order['id']) }}">{{ $order['id'] }}</a>
-                            </td>
-                            <td> {{-- We'll display products codes --}}
-                                @foreach ($order['orders_products'] as $product)
-                                    <a href="{{ url('user/orders/' . $order['id']) }}">{{ $product['product_code'] }}</a>
-                                    <br>
-                                @endforeach
-                            </td>
-                            <td>{{ $order['payment_method'] }}</td>
-                            <td>{{ $order['grand_total'] }}</td>
-                            <td>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</td>
-                        </tr>
-                        @endforeach
-                        </tr>
-                    </table>
-                </div>
-                <div class="row tab-pane" id="shipped">
-                    <table class="table table-striped table-borderless">
-                        <tr class="table-success">
-                            <th>Order ID</th>
-                            <th>Ordered Products</th> {{-- We'll display products codes --}}
-                            <th>Payment Method</th>
-                            <th>Grand Total</th>
-                            <th>Created on</th>
-                            @foreach ($orders['Shipped'] as $order)
-                        <tr>
-                            <td>
-                                <a href="{{ url('user/orders/' . $order['id']) }}">{{ $order['id'] }}</a>
-                            </td>
-                            <td> {{-- We'll display products codes --}}
-                                @foreach ($order['orders_products'] as $product)
-                                    <a href="{{ url('user/orders/' . $order['id']) }}">{{ $product['product_code'] }}</a>
-                                    <br>
-                                @endforeach
-                            </td>
-                            <td>{{ $order['payment_method'] }}</td>
-                            <td>{{ $order['grand_total'] }}</td>
-                            <td>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</td>
-                        </tr>
-                        @endforeach
-                        </tr>
-                    </table>
-                </div>
-                <div class="row tab-pane" id="delivered">
-                    <table class="table table-striped table-borderless">
-                        <tr class="table-success">
-                            <th>Order ID</th>
-                            <th>Ordered Products</th> {{-- We'll display products codes --}}
-                            <th>Payment Method</th>
-                            <th>Grand Total</th>
-                            <th>Created on</th>
-                            @foreach ($orders['Delivered'] as $order)
-                        <tr>
-                            <td>
-                                <a href="{{ url('user/orders/' . $order['id']) }}">{{ $order['id'] }}</a>
-                            </td>
-                            <td> {{-- We'll display products codes --}}
-                                @foreach ($order['orders_products'] as $product)
-                                    <a href="{{ url('user/orders/' . $order['id']) }}">{{ $product['product_code'] }}</a>
-                                    <br>
-                                @endforeach
-                            </td>
-                            <td>{{ $order['payment_method'] }}</td>
-                            <td>{{ $order['grand_total'] }}</td>
-                            <td>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</td>
-                        </tr>
-                        @endforeach
-                        </tr>
-                    </table>
-                </div>
-                <div class="row tab-pane" id="returned">
-                    <table class="table table-striped table-borderless">
-                        <tr class="table-success">
-                            <th>Order ID</th>
-                            <th>Ordered Products</th> {{-- We'll display products codes --}}
-                            <th>Payment Method</th>
-                            <th>Grand Total</th>
-                            <th>Created on</th>
-                            @foreach ($orders['Returned'] as $order)
-                        <tr>
-                            <td>
-                                <a href="{{ url('user/orders/' . $order['id']) }}">{{ $order['id'] }}</a>
-                            </td>
-                            <td> {{-- We'll display products codes --}}
-                                @foreach ($order['orders_products'] as $product)
-                                    <a href="{{ url('user/orders/' . $order['id']) }}">{{ $product['product_code'] }}</a>
-                                    <br>
-                                @endforeach
-                            </td>
-                            <td>{{ $order['payment_method'] }}</td>
-                            <td>{{ $order['grand_total'] }}</td>
-                            <td>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</td>
-                        </tr>
-                        @endforeach
-                        </tr>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
