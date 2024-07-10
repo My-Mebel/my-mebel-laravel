@@ -47,6 +47,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('reports/laporan-penjualan-harian/{tanggal}/{bulan}/{tahun}', 'AdminController@laporanPenjualanHarian');
         Route::get('reports/laporan-penjualan-bulanan/{bulan}/{tahun}', 'AdminController@laporanPenjualanBulanan');
         Route::get('reports/laporan-penjualan-tahunan/{tahun}', 'AdminController@laporanPenjualanTahunan');
+        Route::post('reports/print-laporan', 'AdminController@printLaporan')->name('admin.reports.print-laporan');;
 
         // Sections (Sections, Categories, Subcategories, Products, Attributes)
         Route::get('sections', 'SectionController@sections');

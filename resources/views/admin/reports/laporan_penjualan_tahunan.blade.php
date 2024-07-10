@@ -14,14 +14,20 @@
                                 <div style="display: flex; align-items: center; gap: 30px;">
                                     <h4 style="font-size: 16px; font-weight: 400; margin: 0;">Tahun: {{ $currentDate }}
                                     </h4>
-                                    <button
-                                        style="background: transparent; border: 1px solid #375957; border-radius: 8px; padding: 6px 10px;">
-                                        <div style="display: flex; align-items: center; gap: 8px;">
-                                            <img src="{{ asset('images/export.png') }}" alt="export"
-                                                class="object-contain">
-                                            <span>Export</span>
-                                        </div>
-                                    </button>
+                                    <form method="POST" action="{{ route('admin.reports.print-laporan') }}">
+                                        @csrf
+                                        <input type="hidden" name="orders" value="{{ json_encode($orders) }}">
+                                        <input type="hidden" name="grand_total" value="{{ json_encode($grand_total) }}">
+                                        <input type="hidden" name="date" value="{{ json_encode($currentDate) }}">
+                                        <button
+                                            style="background: transparent; border: 1px solid #375957; border-radius: 8px; padding: 6px 10px;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <img src="{{ asset('images/export.png') }}" alt="export"
+                                                    class="object-contain">
+                                                <span>Export</span>
+                                            </div>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="table-responsive pt-3">
@@ -55,6 +61,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <h4 class="card-title" style="float: right; margin-top: 16px;">Grand Total: Rp. {{ $grand_total}}</h4>
                             </div>
                         </div>
                     </div>

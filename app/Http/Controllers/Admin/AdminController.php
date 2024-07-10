@@ -682,7 +682,7 @@ class AdminController extends Controller
         }
 
         $currentDate = $bulan . '/' . $tahun;
-        
+
         // dd($orders);
         // dd($currentMonth);
         // dd($currentYear);
@@ -711,5 +711,85 @@ class AdminController extends Controller
         // dd($grand_total);
 
         return view('admin/reports/laporan_penjualan_tahunan')->with(compact('orders', 'currentDate', 'grand_total'));
+    }
+
+    public function printLaporan(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            $orders = json_decode($data['orders'], true);
+            $grand_total = $data['grand_total'];
+            $date = json_decode($data['date'], true);
+
+            $dompdf = new \Dompdf\Dompdf();
+
+            $tableRows = '';
+
+            foreach ($orders as $order) {
+                $total = $order['product_price'] * $order['product_qty'];
+                $tableRows .= "
+                    <tr>
+                        <td>" . $order['order_id'] . "</td>
+                        <td>" . $order['product_code'] . "</td>
+                        <td>" . $order['product_name'] . "</td>
+                        <td>" . $order['product_price'] . "</td>
+                        <td>" . $order['product_qty'] . "</td>
+                        <td>" . $total . "</td>
+                    </tr>
+                ";
+            }
+
+            $dompdf->loadHtml('
+                <html>
+                    <head>
+                        <style>
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                            }
+                            table, th, td {
+                                border: 1px solid black;
+                            }
+                            th, td {
+                                padding: 8px;
+                                text-align: left;
+                            }
+                            th {
+                                background-color: #f2f2f2;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <h2 style="text-align: center;">Laporan Penjualan ' . $date . '</h2>
+
+                        <table class="table table-bordered table-striped table-responsive-stack"  id="tableOne">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Product Code</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Qty</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ' . $tableRows . '
+                            </tbody>
+                        </table>
+                        <h4 style="text-align: right; margin-top: 16px; font-weight: bold;">Grand Total: Rp. ' . $grand_total . '</h4>
+                    </body>
+                </html>
+            ');
+
+            // (Optional) Setup the paper size and orientation
+            $dompdf->setPaper('A4', 'potrait');
+
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            // Output the generated PDF to Browser
+            $dompdf->stream();
+        }
     }
 }
