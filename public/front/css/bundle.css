@@ -3131,6 +3131,11 @@ body {
     margin-right: 6px;
 }
 
+.review-whole-container h4.review-heading {
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .r-1 {
     border-bottom: 1px solid #dcdcdd;
 }

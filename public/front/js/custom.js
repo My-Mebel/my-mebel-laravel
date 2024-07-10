@@ -61,6 +61,18 @@ $(document).ready(function () {
     // Show our Preloader/Loader/Loading Page/Preloading Screen ALL THE TIME FOR TESTING!
     // $('.loader').show();
 
+    if (window.location.hash === "#reviews") {
+        var $element = $("#reviews");
+        if ($element.length > 0) {
+            $("html, body").animate(
+                {
+                    scrollTop: $element.offset().top,
+                },
+                1000
+            );
+        }
+    }
+
     // the <select> box in front/products/detail.blade.php (to show the correct related `price` and `stock` depending on the selected `size` (from the `products_attributes` table))
     $("#getPrice").change(function () {
         // console.log(this);

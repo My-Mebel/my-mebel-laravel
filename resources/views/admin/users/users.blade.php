@@ -69,12 +69,11 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a title="View User Details"
+                                                    {{-- <a title="View User Details"
                                                         href="{{ url('admin/orders/' . $order['id']) }}">
                                                         <i style="font-size: 25px" class="mdi mdi-file-document"></i>
-                                                        {{-- Icons from Skydash Admin Panel Template --}}
                                                     </a>
-                                                    &nbsp;&nbsp;
+                                                    &nbsp;&nbsp; --}}
 
                                                     <a href="JavaScript:void(0)" class="confirmDelete" module="user" moduleid="{{ $user['id'] }}"> {{-- Check admin/js/custom.js and web.php (routes) --}}
                                                         <i style="font-size: 25px; color: red;" class="mdi mdi-trash-can"></i> {{-- Icons from Skydash Admin Panel Template --}}

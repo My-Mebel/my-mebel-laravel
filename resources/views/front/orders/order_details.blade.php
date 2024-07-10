@@ -120,14 +120,17 @@
                             <td>{{ $product['product_color'] }}</td>
                             <td>{{ $product['product_qty'] }}</td>
                             <td>{{ $product['item_status'] }}</td>
-                            @if ($product['item_status'] == 'Delivered')
-                                <td>
+                            <td style="display: flex; gap: 12px ">
+                                @if ($product['item_status'] == 'Delivered')
                                     <form action="{{ url('user/return-order/' . $product['id']) }}" method="POST">
                                         @csrf
-                                        <button type="submit" style="border: none; outline: none; background-color: #375958; color: white; border-radius: 6px; padding: 4px 12px; cursor: pointer;">Return</button>
+                                        <button type="submit"
+                                            style="border: none; outline: none; background-color: #375958; color: white; border-radius: 6px; padding: 4px 12px; cursor: pointer;">Return</button>
                                     </form>
-                                </td>
-                            @endif
+                                    <a href="{{ url('product/' . $product['product_id'] . '#reviews') }}"
+                                        style="border: none; outline: none; background-color: #375958; color: white; border-radius: 6px; padding: 4px 12px; cursor: pointer;">Review</a>
+                                @endif
+                            </td>   
                         </tr>
 
 

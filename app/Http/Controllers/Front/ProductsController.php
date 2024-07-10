@@ -439,14 +439,15 @@ class ProductsController extends Controller
 
         $totalStock = ProductsAttribute::where('product_id', $id)->sum('stock'); // sum() the `stock` column of the `products_attributes` table    // sum(): https://laravel.com/docs/9.x/collections#method-sum
 
+        // if user has ordered the product
+        $hasOrdered = !empty(OrdersProduct::where('product_id', $id)->where('user_id', Auth::user()->id)->get()->toArray());
 
         // Dynamic SEO (HTML meta tags): Check the HTML <meta> tags and <title> tag in front/layout/layout.blade.php    
         $meta_title       = $productDetails['meta_title'];
         $meta_description = $productDetails['meta_description'];
         $meta_keywords    = $productDetails['meta_keywords'];
-
-
-        return view('front.products.detail')->with(compact('productDetails', 'categoryDetails', 'totalStock', 'similarProducts', 'recentlyViewedProducts', 'groupProducts', 'meta_title', 'meta_description', 'meta_keywords', 'ratings', 'avgRating', 'avgStarRating', 'ratingOneStarCount', 'ratingTwoStarCount', 'ratingThreeStarCount', 'ratingFourStarCount', 'ratingFiveStarCount'));
+        
+        return view('front.products.detail')->with(compact('productDetails', 'categoryDetails', 'totalStock', 'similarProducts', 'recentlyViewedProducts', 'groupProducts', 'meta_title', 'meta_description', 'meta_keywords', 'ratings', 'avgRating', 'avgStarRating', 'ratingOneStarCount', 'ratingTwoStarCount', 'ratingThreeStarCount', 'ratingFourStarCount', 'ratingFiveStarCount', 'hasOrdered'));
     }
 
 
