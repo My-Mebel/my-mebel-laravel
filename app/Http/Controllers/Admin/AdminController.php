@@ -732,9 +732,9 @@ class AdminController extends Controller
                         <td>" . $order['order_id'] . "</td>
                         <td>" . $order['product_code'] . "</td>
                         <td>" . $order['product_name'] . "</td>
-                        <td>" . $order['product_price'] . "</td>
+                        <td>Rp. " . $order['product_price'] . "</td>
                         <td>" . $order['product_qty'] . "</td>
-                        <td>" . $total . "</td>
+                        <td>Rp. " . $total . "</td>
                     </tr>
                 ";
             }
@@ -745,17 +745,41 @@ class AdminController extends Controller
                         <style>
                             table {
                                 width: 100%;
-                                border-collapse: collapse;
-                            }
-                            table, th, td {
-                                border: 1px solid black;
+                                border-collapse: separate;
+                                border-radius: 8px;
+                                border: 1px solid #375957;
+                                border-spacing: 0;
                             }
                             th, td {
                                 padding: 8px;
                                 text-align: left;
+                                border-right: 1px solid #497875;
+                                border-bottom: 1px solid #375957;
                             }
+                                
                             th {
-                                background-color: #f2f2f2;
+                                color: white;
+                            }
+
+                            td:last-child {
+                                border-right: none;
+                            }
+
+                            thead {
+                                background-color: #375957;
+                            }
+
+
+                            tr:last-child td {
+                                border-bottom: none;
+                            }
+
+                            th:first-child {
+                                border-radius: 8px 0 0 0;
+                            }
+
+                            th:last-child {
+                                border-radius: 0 8px 0 0;
                             }
                         </style>
                     </head>
@@ -789,7 +813,7 @@ class AdminController extends Controller
             $dompdf->render();
 
             // Output the generated PDF to Browser
-            $dompdf->stream();
+            $dompdf->stream('Laporan Penjualan ' . $date);
         }
     }
 }
