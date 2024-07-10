@@ -124,7 +124,7 @@
                                 <td>
                                     <form action="{{ url('user/return-order/' . $product['id']) }}" method="POST">
                                         @csrf
-                                        <button type="submit">Return</button>
+                                        <button type="submit" style="border: none; outline: none; background-color: #375958; color: white; border-radius: 6px; padding: 4px 12px; cursor: pointer;">Return</button>
                                     </form>
                                 </td>
                             @endif
