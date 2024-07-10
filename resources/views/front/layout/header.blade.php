@@ -12,26 +12,8 @@ $sections = \App\Models\Section::sections();
     <div class="full-layer-outer-header">
         <div class="container clearfix">
             <nav>
-                <ul class="primary-nav g-nav">
-                    <li>
-                        <a href="tel:+621255845857">
-                            <i class="fas fa-phone u-c-brand u-s-m-r-9"></i>
-                            Telephone: +621255845857</a>
-                    </li>
-                    <li>
-                        <a href="mailto:info@my-mebel.com">
-                            <i class="fas fa-envelope u-c-brand u-s-m-r-9"></i>
-                            E-mail: info@my-mebel.com
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <nav>
                 <ul class="secondary-nav g-nav">
                     <li>
-
-
-
                         <a>
                             {{-- If the user is authenticated/logged in, show 'My Account', if not, show 'Login/Register' --}}
                             @if (\Illuminate\Support\Facades\Auth::check())
@@ -86,12 +68,6 @@ $sections = \App\Models\Section::sections();
                                     <a href="{{ url('user/login-register') }}">
                                         <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
                                         Customer Login
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('vendor/login-register') }}">
-                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
-                                        Vendor Login
                                     </a>
                                 </li>
                             @endif
