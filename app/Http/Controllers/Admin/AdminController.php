@@ -285,26 +285,44 @@ class AdminController extends Controller
                 } else { // In case the admins updates other fields but doesn't update the image itself (doesn't upload a new image), and originally there wasn't any image uploaded in the first place
                     $imageName = '';
                 }
-
-
-                // Vendor details need to be updated in BOTH `admins` and `vendors` tables:
-                // Update Vendor Details in 'admins' table
-                Admin::where('id', Auth::guard('admin')->user()->id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                    'name' => $data['vendor_name'],
-                    'mobile' => $data['vendor_mobile'],
-                    'image' => $imageName
-                ]); // Note that the image name is the random image name that we generated
-
-                // Update Vendor Details in 'vendors' table
-                Vendor::where('id', Auth::guard('admin')->user()->vendor_id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                    'name' => $data['vendor_name'],
-                    'mobile' => $data['vendor_mobile'],
-                    'address' => $data['vendor_address'],
-                    'city' => $data['vendor_city'],
-                    'state' => $data['vendor_state'],
-                    'country' => $data['vendor_country'],
-                    'pincode' => $data['vendor_pincode'],
-                ]);
+                
+                if (isset($data['vendor_id'])) {
+                    // dd($data);
+                    Admin::where('vendor_id', $data['vendor_id'])->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                        'name' => $data['vendor_name'],
+                        'mobile' => $data['vendor_mobile'],
+                    ]);
+    
+                    // Update Vendor Details in 'vendors' table
+                    Vendor::where('id', $data['vendor_id'])->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                        'name' => $data['vendor_name'],
+                        'mobile' => $data['vendor_mobile'],
+                        'address' => $data['vendor_address'],
+                        'city' => $data['vendor_city'],
+                        'state' => $data['vendor_state'],
+                        'country' => $data['vendor_country'],
+                        'pincode' => $data['vendor_pincode'],
+                    ]);
+                } else {
+                    // Vendor details need to be updated in BOTH `admins` and `vendors` tables:
+                    // Update Vendor Details in 'admins' table
+                    Admin::where('id', Auth::guard('admin')->user()->id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                        'name' => $data['vendor_name'],
+                        'mobile' => $data['vendor_mobile'],
+                        'image' => $imageName
+                    ]); // Note that the image name is the random image name that we generated
+    
+                    // Update Vendor Details in 'vendors' table
+                    Vendor::where('id', Auth::guard('admin')->user()->vendor_id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                        'name' => $data['vendor_name'],
+                        'mobile' => $data['vendor_mobile'],
+                        'address' => $data['vendor_address'],
+                        'city' => $data['vendor_city'],
+                        'state' => $data['vendor_state'],
+                        'country' => $data['vendor_country'],
+                        'pincode' => $data['vendor_pincode'],
+                    ]);
+                }
 
 
                 return redirect()->back()->with('success_message', 'Vendor details updated successfully!');
@@ -365,11 +383,8 @@ class AdminController extends Controller
                     $imageName = '';
                 }
 
-
-                $vendorCount = VendorsBusinessDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->count(); // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                if ($vendorCount > 0) { // if there's a vendor already existing, them UPDATE
-                    // UPDATE `vendors_business_details` table
-                    VendorsBusinessDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                if (isset($data['vendor_id'])) {
+                    VendorsBusinessDetail::where('vendor_id', $data['vendor_id'])->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
                         'shop_name' => $data['shop_name'],
                         'shop_mobile' => $data['shop_mobile'],
                         'shop_website' => $data['shop_website'],
@@ -384,27 +399,45 @@ class AdminController extends Controller
                         'address_proof' => $data['address_proof'],
                         'address_proof_image' => $imageName,
                     ]);
-                } else { // if there's no vendor already existing, then INSERT
-                    // INSERT INTO `vendors_business_details` table
-                    VendorsBusinessDetail::insert([
-                        'vendor_id' => Auth::guard('admin')->user()->vendor_id, // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
-                        'shop_name' => $data['shop_name'],
-                        'shop_mobile' => $data['shop_mobile'],
-                        'shop_website' => $data['shop_website'],
-                        'shop_address' => $data['shop_address'],
-                        'shop_city' => $data['shop_city'],
-                        'shop_state' => $data['shop_state'],
-                        'shop_country' => $data['shop_country'],
-                        'shop_pincode' => $data['shop_pincode'],
-                        'business_license_number' => $data['business_license_number'],
-                        'gst_number' => $data['gst_number'],
-                        'pan_number' => $data['pan_number'],
-                        'address_proof' => $data['address_proof'],
-                        'address_proof_image' => $imageName,
-                    ]);
+                } else {
+                    $vendorCount = VendorsBusinessDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->count(); // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                        if ($vendorCount > 0) { // if there's a vendor already existing, them UPDATE
+                            // UPDATE `vendors_business_details` table
+                            VendorsBusinessDetail::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([ // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                                'shop_name' => $data['shop_name'],
+                                'shop_mobile' => $data['shop_mobile'],
+                                'shop_website' => $data['shop_website'],
+                                'shop_address' => $data['shop_address'],
+                                'shop_city' => $data['shop_city'],
+                                'shop_state' => $data['shop_state'],
+                                'shop_country' => $data['shop_country'],
+                                'shop_pincode' => $data['shop_pincode'],
+                                'business_license_number' => $data['business_license_number'],
+                                'gst_number' => $data['gst_number'],
+                                'pan_number' => $data['pan_number'],
+                                'address_proof' => $data['address_proof'],
+                                'address_proof_image' => $imageName,
+                            ]);
+                        } else { // if there's no vendor already existing, then INSERT
+                            // INSERT INTO `vendors_business_details` table
+                            VendorsBusinessDetail::insert([
+                                'vendor_id' => Auth::guard('admin')->user()->vendor_id, // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                                'shop_name' => $data['shop_name'],
+                                'shop_mobile' => $data['shop_mobile'],
+                                'shop_website' => $data['shop_website'],
+                                'shop_address' => $data['shop_address'],
+                                'shop_city' => $data['shop_city'],
+                                'shop_state' => $data['shop_state'],
+                                'shop_country' => $data['shop_country'],
+                                'shop_pincode' => $data['shop_pincode'],
+                                'business_license_number' => $data['business_license_number'],
+                                'gst_number' => $data['gst_number'],
+                                'pan_number' => $data['pan_number'],
+                                'address_proof' => $data['address_proof'],
+                                'address_proof_image' => $imageName,
+                            ]);
+                        }
                 }
-
-
                 return redirect()->back()->with('success_message', 'Vendor details updated successfully!');
             }
 
@@ -533,8 +566,8 @@ class AdminController extends Controller
         $vendorDetails = Admin::with('vendorPersonal', 'vendorBusiness', 'vendorBank')->where('id', $id)->first(); // Using the relationship defined in the Admin.php model to be able to get data from `vendors`, `vendors_business_details` and `vendors_bank_details` tables
         $vendorDetails = json_decode(json_encode($vendorDetails), true); // We used json_decode(json_encode($variable), true) to convert $vendorDetails to an array instead of Laravel's toArray() method
         // dd($vendorDetails);
-
-        return view('admin/admins/view_vendor_details')->with(compact('vendorDetails'));
+        $countries = Country::where('status', 1)->get()->toArray();
+        return view('admin/admins/view_vendor_details')->with(compact('vendorDetails', 'countries'));
     }
 
     public function updateAdminStatus(Request $request)
