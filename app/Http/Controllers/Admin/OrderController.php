@@ -80,9 +80,9 @@ class OrderController extends Controller
 
         // Correcting issues in the Skydash Admin Panel Sidebar using Session
         Session::put('page', 'orders');
-        $orders = Order::all()->toArray();
+        $all_orders = Order::all()->toArray();
 
-        foreach ($orders as $key => $order) {
+        foreach ($all_orders as $key => $order) {
             if ($order['payment_method'] == 'Prepaid') {
                 $this->changeMidtransStatus($order['id']);
             }
@@ -104,16 +104,33 @@ class OrderController extends Controller
 
 
         if ($adminType == 'vendor') { // If the authenticated/logged-in user is 'vendor', we show ONLY the orders of the products added by that specific 'vendor' ONLY
-            $orders = Order::with([ // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model    // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries
+            $all_orders = Order::with([ // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model    // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries
                 'orders_products' => function ($query) use ($vendor_id) { // function () use ()     syntax: https://www.php.net/manual/en/functions.anonymous.php#:~:text=the%20use%20language%20construct     // 'orders_products' is the Relationship method name in Order.php model
                     $query->where('vendor_id', $vendor_id); // `vendor_id` in `orders_products` table
                 }
-            ])->orderBy('id', 'Desc')->get()->toArray();
-            // dd($orders);
+            ])->orderBy('id', 'Desc')->get();
+            // dd($all_orders);
+
+            
 
         } else { // if the authenticated/logged-in user is 'admin', we show ALL orders
-            $orders = Order::with('orders_products')->orderBy('id', 'Desc')->get()->toArray(); // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model
-            // dd($orders);
+            $all_orders = Order::with('orders_products')->orderBy('id', 'Desc')->get(); // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model
+            // dd($all_orders);
+        }
+
+        $statuses = ['Pending', 'In Progress', 'Shipped', 'Delivered', 'Returned'];
+
+        // Initialize an array to store filtered orders
+        $orders = [];
+
+        // Loop through each status and filter orders accordingly
+        foreach ($statuses as $status) {
+            $filtered_orders = $all_orders->filter(function ($order) use ($status) {
+                return $order->orders_products->contains('item_status', $status);
+            });
+
+            // Convert filtered collection to array and store it
+            $orders[$status] = $filtered_orders->toArray();
         }
 
 
