@@ -441,20 +441,25 @@
                                                     <input type="hidden" name="order_item_id"
                                                         value="{{ $product['id'] }}">
 
-                                                    @if ($product['item_status'] != 'Returned')
                                                     <select id="order_item_status" name="order_item_status" required>
-                                                        @foreach ($orderItemStatuses as $status)
-                                                            @if ($status['name'] != 'Returned')
-                                                            <option value="{{ $status['name'] }}"
-                                                                @if (!empty($product['item_status']) && $product['item_status'] == $status['name']) selected @endif>
-                                                                {{ $status['name'] }}</option>
-                                                            @endif
-                                                        @endforeach
+                                                        @if ($product['item_status'] != 'Returned')
+                                                            @foreach ($orderItemStatuses as $status)
+                                                                @if ($status['name'] != 'Returned')
+                                                                    <option value="{{ $status['name'] }}"
+                                                                        @if (!empty($product['item_status']) && $product['item_status'] == $status['name']) selected @endif>
+                                                                        {{ $status['name'] }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        @else
+                                                            <option value="Returned" selected>
+                                                                Returned
+                                                            </option>
+                                                        @endif
                                                     </select>
-                                                    @endif
 
                                                     {{-- // Note: There are two types of Shipping Process: "manual" and "automatic". "Manual" is in the case like small businesses, where the courier arrives at the owner warehouse to to pick up the order for shipping, and the small business owner takes the shipment details (like courier name, tracking number, ...) from the courier, and inserts those details themselves in the Admin Panel when they "Update Order Status" Section (by an 'admin') or "Update Item Status" Section (by a 'vendor' or 'admin') (in admin/orders/order_details.blade.php). With "automatic" shipping process, we're integrating third-party APIs and orders go directly to the shipping partner, and the updates comes from the courier's end, and orders are automatically delivered to customers --}}
-                                                    
+
                                                     <input style="width: 110px" type="text" name="item_courier_name"
                                                         id="item_courier_name" placeholder="Item Courier Name"
                                                         @if (!empty($product['courier_name'])) value="{{ $product['courier_name'] }}" @endif>
