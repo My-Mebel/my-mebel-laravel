@@ -114,7 +114,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // Users
         Route::get('users', 'UserController@users'); // Render admin/users/users.blade.php page in the Admin Panel
         Route::post('update-user-status', 'UserController@updateUserStatus'); // Update User Status (active/inactive) via AJAX in admin/users/users.blade.php, check admin/js/custom.js
-        Route::post('delete-user/{id}', 'UserController@deleteUser'); // Delete a User via AJAX in admin/users/users.blade.php, check admin/js/custom.js
+        Route::get('delete-user/{id}', 'UserController@deleteUser'); // Delete a User via AJAX in admin/users/users.blade.php, check admin/js/custom.js
 
         // Orders
         // Render admin/orders/orders.blade.php page (Orders Management section) in the Admin Panel
@@ -138,7 +138,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         // Render order PDF invoice in order_invoice.blade.php using Dompdf Package
         Route::get('orders/invoice/pdf/{id}', 'OrderController@viewPDFInvoice');
 
-        Route::post('delete-order/{id}', 'OrderController@deleteOrder'); // Delete an Order via AJAX in admin/orders/orders.blade.php, check admin/js/custom.js
+        Route::get('delete-order/{id}', 'OrderController@deleteOrder'); // Delete an Order via AJAX in admin/orders/orders.blade.php, check admin/js/custom.js
 
         // Shipping Charges module
         // Render the Shipping Charges page (admin/shipping/shipping_charges.blade.php) in the Admin Panel for 'admin'-s only, not for vendors

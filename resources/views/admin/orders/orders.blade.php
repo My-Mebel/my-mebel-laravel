@@ -74,16 +74,12 @@
                                                             <i style="font-size: 25px" class="mdi mdi-file-pdf"></i>
                                                             {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
+                                                        
+                                                        &nbsp;&nbsp;
 
-                                                        <form action="{{ url('admin/delete-order/' . $order['id']) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <button type="submit"
-                                                                style="background: none; border: none; cursor: pointer; padding: 0;">
-                                                                <i style="font-size: 25px; color: red;"
-                                                                    class="mdi mdi-delete"></i>
-                                                            </button>
-                                                        </form>
+                                                        <a href="JavaScript:void(0)" class="confirmDelete" module="order" moduleid="{{ $order['id'] }}"> {{-- Check admin/js/custom.js and web.php (routes) --}}
+                                                            <i style="font-size: 25px; color: red;" class="mdi mdi-trash-can"></i> {{-- Icons from Skydash Admin Panel Template --}}
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endif
