@@ -60,6 +60,19 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a @if (Session::get('page') == 'reports') style="background: #052CA3 !important; color: #FFF !important" @endif class="nav-link" data-toggle="collapse" href="#ui-reports" aria-expanded="false" aria-controls="ui-reports">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Reports</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-reports">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color: #052CA3 !important">
+                        <li class="nav-item"> <a @if (Session::get('page') == 'reports')   style="background: #052CA3 !important; color: #FFF !important" @else style="background: #fff !important; color: #052CA3 !important" @endif class="nav-link" href="{{ url('admin/reports/laporan-penjualan') }}">Laporan Penjualan</a></li>
+                    </ul>
+                </div>
+            </li>
+
         @else {{-- In case the authenticated user (the logged-in user) (using the 'admin' Authentication Guard in auth.php) type is 'superadmin', or 'admin', or 'subadmin' --}}
             <li class="nav-item">
                 <a @if (Session::get('page') == 'update_admin_password' || Session::get('page') == 'update_admin_details') style="background: #052CA3 !important; color: #FFF !important" @endif class="nav-link" data-toggle="collapse" href="#ui-settings" aria-expanded="false" aria-controls="ui-settings">

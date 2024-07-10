@@ -43,9 +43,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-admin-status', 'AdminController@updateAdminStatus'); // Update Admin Status using AJAX in admins.blade.php
 
         // Laporan Penjualan
-        Route::get('laporan-penjualan-harian/{tanggal}/{bulan}/{tahun}', 'AdminController@laporanPenjualanHarian');
-        Route::get('laporan-penjualan-bulanan/{bulan}/{tahun}', 'AdminController@laporanPenjualanBulanan');
-        Route::get('laporan-penjualan-tahunan/{tahun}', 'AdminController@laporanPenjualanTahunan');
+        Route::get('reports/laporan-penjualan', 'AdminController@laporanPenjualan'); // Render the laporan_penjualan.blade.php page (Sales Report page in the Admin Panel)
+        Route::get('reports/laporan-penjualan-harian/{tanggal}/{bulan}/{tahun}', 'AdminController@laporanPenjualanHarian');
+        Route::get('reports/laporan-penjualan-bulanan/{bulan}/{tahun}', 'AdminController@laporanPenjualanBulanan');
+        Route::get('reports/laporan-penjualan-tahunan/{tahun}', 'AdminController@laporanPenjualanTahunan');
 
         // Sections (Sections, Categories, Subcategories, Products, Attributes)
         Route::get('sections', 'SectionController@sections');

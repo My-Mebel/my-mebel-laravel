@@ -9,10 +9,6 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Coupons</h4>
-
-
-
-
                             <a href="{{ url('admin/add-edit-coupon') }}"
                                 style="max-width: 150px; float: right; display: inline-block"
                                 class="btn btn-block btn-primary">Add Coupon</a>
