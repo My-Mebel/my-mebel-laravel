@@ -54,4 +54,23 @@ class UserController extends Controller
 
         return redirect()->back()->with('flash_message_success', 'User has been deleted successfully!');
     }
+
+    public function updateUser(Request $request, $id)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            // dd($data);
+
+            User::where('id', $id)->update([
+                'name'  => $data['name'],
+                'mobile' => $data['mobile']
+            ]);
+
+            return redirect()->back()->with('flash_message_success', 'User has been updated successfully!');
+        }
+
+        $userDetails = User::where('id', $id)->first();
+
+        return view('admin.users.user_detail')->with(compact('userDetails'));
+    }
 }
