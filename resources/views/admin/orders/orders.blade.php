@@ -74,12 +74,17 @@
                                                             <i style="font-size: 25px" class="mdi mdi-file-pdf"></i>
                                                             {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
-                                                        
-                                                        &nbsp;&nbsp;
 
-                                                        <a href="JavaScript:void(0)" class="confirmDelete" module="order" moduleid="{{ $order['id'] }}"> {{-- Check admin/js/custom.js and web.php (routes) --}}
-                                                            <i style="font-size: 25px; color: red;" class="mdi mdi-trash-can"></i> {{-- Icons from Skydash Admin Panel Template --}}
-                                                        </a>
+                                                        &nbsp;&nbsp;
+                                                        @if (Auth::guard('admin')->user()->type == 'superadmin')
+                                                            {{-- if the authenticated/logged-in user is 'admin' --}}
+                                                            <a href="JavaScript:void(0)" class="confirmDelete"
+                                                                module="order" moduleid="{{ $order['id'] }}">
+                                                                {{-- Check admin/js/custom.js and web.php (routes) --}}
+                                                                <i style="font-size: 25px; color: red;"
+                                                                    class="mdi mdi-trash-can"></i> {{-- Icons from Skydash Admin Panel Template --}}
+                                                            </a>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endif

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 use App\Models\User;
@@ -23,8 +24,6 @@ class UserController extends Controller
 
         return view('admin.users.users')->with(compact('users'));
     }
-
-
 
     // Update User Status (active/inactive) via AJAX in admin/users/users.blade.php, check admin/js/custom.js    
     public function updateUserStatus(Request $request)
@@ -63,14 +62,14 @@ class UserController extends Controller
 
             User::where('id', $id)->update([
                 'name'  => $data['name'],
-                'mobile' => $data['mobile']
+                'mobile' => $data['mobile'],
             ]);
 
-            return redirect()->back()->with('flash_message_success', 'User has been updated successfully!');
+            return redirect()->back()->with('success_message', 'User has been updated successfully!');
         }
 
-        $userDetails = User::where('id', $id)->first();
+        $user = User::where('id', $id)->first();
 
-        return view('admin.users.user_detail')->with(compact('userDetails'));
+        return view('admin.users.update_user_details')->with(compact('user'));
     }
 }
