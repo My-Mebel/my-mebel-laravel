@@ -24,6 +24,7 @@ use App\Models\VendorsBusinessDetail;
 use App\Models\VendorsBankDetail;
 use App\Models\Country;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use App\Models\OrdersProduct;
 
 class AdminController extends Controller
@@ -598,5 +599,79 @@ class AdminController extends Controller
         Vendor::where('id', $vendor_id)->delete(); // Deleting a Vendor from the Vendors table
 
         return redirect()->back()->with('success_message', 'Vendor has been deleted successfully!');
+    }
+
+    // Laporan Penjualan
+    // Route::get('vendor/laporan-penjualan-harian/{tanggal}/{bulan}/{tahun}', 'AdminController@laporanPenjualanHarian');
+    // Route::get('vendor/laporan-penjualan-bulanan/{bulan}/{tahun}', 'AdminController@laporanPenjualanBulanan');
+    // Route::get('vendor/laporan-penjualan-tahunan/{tahun}', 'AdminController@laporanPenjualanTahunan');
+
+    public function laporanPenjualanHarian($tanggal, $bulan, $tahun)
+    {
+
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+
+        if ($adminType == 'vendor') {
+            $orders = OrdersProduct::where('vendor_id', $vendor_id)->whereDate('created_at', $tahun . '-' . $bulan . '-' . $tanggal)->get()->toArray();
+            $grand_total = OrdersProduct::where('vendor_id', $vendor_id)->whereDate('created_at', $tahun . '-' . $bulan . '-' . $tanggal)->sum(DB::raw('product_price * product_qty'));
+        } else {
+            $orders = OrdersProduct::whereDate('created_at', $tahun . '-' . $bulan . '-' . $tanggal)->get()->toArray();
+            $grand_total = OrdersProduct::whereDate('created_at', $tahun . '-' . $bulan . '-' . $tanggal)->sum(DB::raw('product_price * product_qty'));
+        }
+
+        $currentDate = $tahun . '-' . $bulan . '-' . $tanggal;
+
+        // dd($orders);
+        // dd($currentDate);
+        // dd($grand_total);
+
+        return view('admin/reports/laporan_penjualan_harian')->with(compact('orders', 'currentDate', 'grand_total'));
+    }
+
+    public function laporanPenjualanBulanan($bulan, $tahun)
+    {
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+
+        if ($adminType == 'vendor') {
+            $orders = OrdersProduct::where('vendor_id', $vendor_id)->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->get()->toArray();
+            $grand_total = OrdersProduct::where('vendor_id', $vendor_id)->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->sum(DB::raw('product_price * product_qty'));
+        } else {
+            $orders = OrdersProduct::whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->get()->toArray();
+            $grand_total = OrdersProduct::whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->sum(DB::raw('product_price * product_qty'));
+        }
+
+        $currentMonth = $bulan;
+        $currentYear = $tahun;
+
+        // dd($orders);
+        // dd($currentMonth);
+        // dd($currentYear);
+        // dd($grand_total);
+
+        return view('admin/reports/laporan_penjualan_bulanan')->with(compact('orders', 'currentMonth', 'currentYear', 'grand_total'));
+    }
+
+    public function laporanPenjualanTahunan($tahun)
+    {
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+
+        if ($adminType == 'vendor') {
+            $orders = OrdersProduct::where('vendor_id', $vendor_id)->whereYear('created_at', $tahun)->get()->toArray();
+            $grand_total = OrdersProduct::where('vendor_id', $vendor_id)->whereYear('created_at', $tahun)->sum(DB::raw('product_price * product_qty'));
+        } else {
+            $orders = OrdersProduct::whereYear('created_at', $tahun)->get()->toArray();
+            $grand_total = OrdersProduct::whereYear('created_at', $tahun)->sum(DB::raw('product_price * product_qty'));
+        }
+
+        $currentYear = $tahun;
+
+        // dd($orders);
+        // dd($currentYear);
+        // dd($grand_total);
+
+        return view('admin/reports/laporan_penjualan_tahunan')->with(compact('orders', 'currentYear', 'grand_total'));
     }
 }
