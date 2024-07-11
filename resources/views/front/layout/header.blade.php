@@ -246,57 +246,6 @@ $sections = \App\Models\Section::sections();
                         </nav>
                     </div>
                 </div>
-                <div class="col-lg-9">
-                    <ul class="bottom-nav g-nav u-d-none-lg">
-                        <li>
-                            <a href="{{ url('search-products?search=new-arrivals') }}">New Arrivals
-                                <span class="superscript-label-new">NEW</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('search-products?search=best-sellers') }}">Best Seller
-                                <span class="superscript-label-hot">HOT</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('search-products?search=featured') }}">Featured
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('search-products?search=discounted') }}">Discounted
-                                <span class="superscript-label-discount">>10%</span>
-                            </a>
-                        </li>
-                        <li class="mega-position">
-                            <a>More
-                                <i class="fas fa-chevron-down u-s-m-l-9"></i>
-                            </a>
-                            <div class="mega-menu mega-3-colm">
-                                <ul>
-                                    <li class="menu-title">COMPANY</li>
-                                    <li>
-                                        <a href="{{ url('about-us') }}" class="u-c-brand">About Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('contact') }}">Contact Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('faq') }}">FAQ</a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li class="menu-title">ACCOUNT</li>
-                                    <li>
-                                        <a href="{{ url('user/account') }}">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('user/orders') }}">My Orders</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>

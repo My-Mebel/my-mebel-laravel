@@ -80,7 +80,16 @@
                     <tr>
                         <td>Payment Gateway</td>
                         <td>
-                                {{$orderDetails['payment_gateway'] }}
+                            @if ($orderDetails['payment_method'] == 'Prepaid')
+                                @if ($orderDetails['payment_gateway'] == 'Paid')
+                                    Midtrans (Paid)
+                                @else
+                                    <a href="{{ $orderDetails['payment_gateway'] }}" target="_blank">Proceed to
+                                        Payment</a>
+                                @endif
+                            @else
+                                {{ $orderDetails['payment_gateway'] }}
+                            @endif
                         </td>
                     </tr>
                 </table>

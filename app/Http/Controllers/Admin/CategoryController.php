@@ -82,7 +82,7 @@ class CategoryController extends Controller
 
             // Laravel's Validation    // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules    
             $rules = [
-                'category_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                'category_name' => 'required|string|max:100', // only alphabetical characters and spaces
                 'section_id'    => 'required',
                 'url'           => 'required',
             ];

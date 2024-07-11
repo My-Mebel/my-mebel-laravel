@@ -176,7 +176,7 @@ class AdminController extends Controller
             // Laravel's Validation
             // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
             $rules = [
-                'admin_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                'admin_name' => 'required|string|max:100', // only alphabetical characters and spaces
                 'admin_mobile' => 'required|numeric',
             ];
 
@@ -244,8 +244,8 @@ class AdminController extends Controller
 
                 // Laravel's Validation    // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
                 $rules = [
-                    'vendor_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
-                    'vendor_city' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                    'vendor_name' => 'required|string|max:100', // only alphabetical characters and spaces
+                    'vendor_city' => 'required|string|max:100', // only alphabetical characters and spaces
                     'vendor_mobile' => 'required|numeric',
                 ];
 
@@ -342,8 +342,8 @@ class AdminController extends Controller
 
                 // Laravel's Validation    // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
                 $rules = [
-                    'shop_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
-                    'shop_city' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                    'shop_name' => 'required|string|max:100', // only alphabetical characters and spaces
+                    'shop_city' => 'required|string|max:100', // only alphabetical characters and spaces
                     'shop_mobile' => 'required|numeric',
                     'address_proof' => 'required',
                 ];
@@ -460,7 +460,7 @@ class AdminController extends Controller
 
                 // Laravel's Validation    // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
                 $rules = [
-                    'account_holder_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                    'account_holder_name' => 'required|string|max:100', // only alphabetical characters and spaces
                     'bank_name' => 'required', // only alphabetical characters and spaces
                     'account_number' => 'required|numeric',
                     'bank_ifsc_code' => 'required',

@@ -88,7 +88,7 @@ class APIController extends Controller
             // Validation (Laravel Validation)    // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
             $rules = [
                 // Fields/Column Names
-                'name'     => 'required|regex:/^[\pL\s\-]+$/u', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
+                'name'     => 'required|string|max:100', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
                 'email'    => 'required|email|unique:users', // 'unique' validation rule in `users` datbase table    // unique:table,column: https://laravel.com/docs/9.x/validation#rule-unique
                 'password' => 'required'
             ];
@@ -147,7 +147,7 @@ class APIController extends Controller
             $rules = [
                 // Fields/Column Names
                 // Validating Nested Array Input: https://laravel.com/docs/9.x/validation#validating-nested-array-input
-                'users.*.name'     => 'required|regex:/^[\pL\s\-]+$/u', // Note: Submitted data is bulk/mulple JSON data/objects wrapped in a 'users' JSON Wrapping Object, and '*' (asterisk) denotes the array keys/indexes (e.g. 0, 1, 2, ...)    // Validating Nested Array Input: https://laravel.com/docs/9.x/validation#validating-nested-array-input
+                'users.*.name'     => 'required|string|max:100', // Note: Submitted data is bulk/mulple JSON data/objects wrapped in a 'users' JSON Wrapping Object, and '*' (asterisk) denotes the array keys/indexes (e.g. 0, 1, 2, ...)    // Validating Nested Array Input: https://laravel.com/docs/9.x/validation#validating-nested-array-input
                 'users.*.email'    => 'required|email|unique:users',    // Note: Submitted data is bulk/mulple JSON data/objects wrapped in a 'users' JSON Wrapping Object, and '*' (asterisk) denotes the array keys/indexes (e.g. 0, 1, 2, ...)    // Validating Nested Array Input: https://laravel.com/docs/9.x/validation#validating-nested-array-input
                 'users.*.password' => 'required'                        // Note: Submitted data is bulk/mulple JSON data/objects wrapped in a 'users' JSON Wrapping Object, and '*' (asterisk) denotes the array keys/indexes (e.g. 0, 1, 2, ...)    // Validating Nested Array Input: https://laravel.com/docs/9.x/validation#validating-nested-array-input
             ];
@@ -209,7 +209,7 @@ class APIController extends Controller
             // Validation (Laravel Validation)    // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
             $rules = [
                 // Fields/Column Names
-                'name'     => 'required|regex:/^[\pL\s\-]+$/u', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
+                'name'     => 'required|string|max:100', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
                 'email'    => 'required|email', // 'unique' validation rule in `users` datbase table    // unique:table,column: https://laravel.com/docs/9.x/validation#rule-unique
                 'password' => 'required'
             ];
@@ -264,7 +264,7 @@ class APIController extends Controller
             // Validation (Laravel Validation)     // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
             $rules = [
                 // Fields/Column Names
-                'name'     => 'required|regex:/^[\pL\s\-]+$/u', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
+                'name'     => 'required|string|max:100', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
             ];
 
             // Customizing Laravel's default error messages for every [Field with Validation Rule] e.g. the 'required' Validation Rule for the 'name' field    // Customizing The Error Messages: https://laravel.com/docs/9.x/validation#manual-customizing-the-error-messages
@@ -370,7 +370,7 @@ class APIController extends Controller
             // Validation (Laravel Validation)    // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
             $rules = [
                 // Fields/Column Names
-                'name'     => 'required|regex:/^[\pL\s\-]+$/u', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
+                'name'     => 'required|string|max:100', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
                 'email'    => 'required|email|unique:users', // 'unique' validation rule in `users` datbase table    // unique:table,column: https://laravel.com/docs/9.x/validation#rule-unique
                 'password' => 'required'
             ];
@@ -557,7 +557,7 @@ class APIController extends Controller
             // Validation (Laravel Validation)    // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
             $rules = [
                 // Fields/Column Names
-                'name'     => 'required|regex:/^[\pL\s\-]+$/u', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
+                'name'     => 'required|string|max:100', // regex:pattern: https://laravel.com/docs/9.x/validation#rule-regex
                 'email'    => 'required|email|unique:users', // 'unique' validation rule in `users` datbase table    // unique:table,column: https://laravel.com/docs/9.x/validation#rule-unique
                 'password' => 'required'
             ];

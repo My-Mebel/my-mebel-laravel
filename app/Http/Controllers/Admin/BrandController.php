@@ -77,7 +77,7 @@ class BrandController extends Controller
 
             // Laravel's Validation    // Customizing Laravel's Validation Error Messages: https://laravel.com/docs/9.x/validation#customizing-the-error-messages    // Customizing Validation Rules: https://laravel.com/docs/9.x/validation#custom-validation-rules
             $rules = [
-                'brand_name' => 'required|regex:/^[\pL\s\-]+$/u', // only alphabetical characters and spaces
+                'brand_name' => 'required|string|max:100', // only alphabetical characters and spaces
             ];
 
             $customMessages = [ // Specifying A Custom Message For A Given Attribute: https://laravel.com/docs/9.x/validation#specifying-a-custom-message-for-a-given-attribute
