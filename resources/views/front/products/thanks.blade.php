@@ -29,11 +29,19 @@
                     <h3>YOUR ORDER HAS BEEN PLACED SUCCESSFULLY</h3>
                     <p>Your order number is {{ Session::get('order_id') }} and Grand Total is IDR
                         {{ Session::get('grand_total') }}</p> {{-- The Order Number is the order `id` in the `orders` database table. We stored the order id in Session in checkout() method in Front/ProductsController.php --}} {{-- Retrieving Data: https://laravel.com/docs/10.x/session#retrieving-data --}}
+                    <p>Click this <a href="{{ Session::get('payment_gateway') }}" target="_blank">link</a> or check in order
+                        details if you haven't been redirected to payment</p>
+
                 </div>
             </div>
         </div>
     </div>
     <!-- Cart-Page /- -->
+    <script>
+        if ("{{ Session::get('payment_method') }}" == "Prepaid") {
+            window.open("{{ Session::get('payment_gateway') }}", "_blank");
+        }
+    </script>
 @endsection
 
 
@@ -42,8 +50,8 @@
 @php
     use Illuminate\Support\Facades\Session;
 
-    Session::forget('grand_total');  // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
-    Session::forget('order_id');     // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
-    Session::forget('couponCode');   // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
+    Session::forget('grand_total'); // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
+    Session::forget('order_id'); // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
+    Session::forget('couponCode'); // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
     Session::forget('couponAmount'); // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
 @endphp

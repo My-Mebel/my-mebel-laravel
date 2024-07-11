@@ -1267,7 +1267,7 @@ class ProductsController extends Controller
                 $this->createPaymentLink($order_id);
 
                 $order = Order::find($order_id);
-                return redirect($order->payment_gateway);
+                return redirect('thanks')->with(['payment_gateway' => $order->payment_gateway, 'payment_method' => $order->payment_method]);
             }
 
             return redirect('thanks'); // redirect to front/products/thanks.blade.php page

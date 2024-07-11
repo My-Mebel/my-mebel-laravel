@@ -61,18 +61,6 @@
                         <td>Rp. {{ $orderDetails['shipping_charges'] }}</td>
                     </tr>
 
-                    @if ($orderDetails['coupon_code'] != '')
-                        <tr>
-                            <td>Coupon Code</td>
-                            <td>{{ $orderDetails['coupon_code'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Coupon Amount</td>
-                            <td>Rp. {{ $orderDetails['coupon_amount'] }}</td>
-                        </tr>
-                    @endif
-
-
                     @if ($orderDetails['courier_name'] != '')
                         <tr>
                             <td>Courier Name</td>
@@ -87,6 +75,17 @@
                     <tr>
                         <td>Payment Method</td>
                         <td>{{ $orderDetails['payment_method'] }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Payment Gateway</td>
+                        <td>
+                            @if ($orderDetails['payment_method'] == 'Prepaid')
+                                <a href="{{ $orderDetails['payment_gateway'] }}" target="_blank"></a>
+                            @else
+                                {{ $orderDetails['payment_gateway'] }}
+                            @endif
+                        </td>
                     </tr>
                 </table>
 
