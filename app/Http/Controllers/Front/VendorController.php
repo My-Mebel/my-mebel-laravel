@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\VendorsBusinessDetail;
 use Illuminate\Support\Facades\Log;
 use App\Models\Vendor;
 use App\Models\Admin;
@@ -102,8 +103,24 @@ class VendorController extends Controller
             //     $message->to($email)->subject('Confirm your Vendor Account');
             // });
 
-
             DB::commit(); // commit the Database Transaction
+
+            VendorsBusinessDetail::insert([
+                'vendor_id' => $vendor_id, // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances
+                'shop_name' => "",
+                'shop_mobile' => "",
+                'shop_website' => "",
+                'shop_address' => "",
+                'shop_city' => "",
+                'shop_state' => "",
+                'shop_country' => "",
+                'shop_pincode' => "",
+                'business_license_number' => "",
+                'gst_number' => "",
+                'pan_number' => "",
+                'address_proof' => "",
+                'address_proof_image' => "",
+            ]);
 
 
             // Redirect the vendor back with a success message
