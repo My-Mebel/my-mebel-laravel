@@ -4,9 +4,11 @@
 Clone this repo
 CD to directory
 CP .env.exampe to .env
-Create database mymebel in mysql
-Run ddl.sql script in database
 Composer install/Composer Update
-npm install and npm install run build
+npm install and npm run build
+Create database mymebel in mysql
+php artisan migrate:fresh
+php artisan db:seed
+php artisan key:generate
 php artisan serve
 ```
