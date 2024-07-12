@@ -68,8 +68,8 @@ class ProductsTableSeeder extends Seeder
                 'section_id'       => 3,
                 'category_id'      => 3,
                 'brand_id'         => 2,
-                'vendor_id'        => 1, // 0 means not a vendor
-                'admin_id'         => 2,
+                'vendor_id'        => 2, // 0 means not a vendor
+                'admin_id'         => 3,
                 'admin_type'       => 'vendor',
                 'product_name'     => 'Wooden Wall',
                 'product_code'     => 'WW001',

@@ -47,6 +47,19 @@ class AdminsTableSeeder extends Seeder
                 'status'    => 1, // Our authentication logic in the login() method in the AdminController won't allow this admin logging in in case of 'status' = 0
                 'confirm'   => 'Yes',
             ],
+
+            [
+                'id'        => 3,
+                'name'      => 'Setia',
+                'type'      => 'vendor',
+                'vendor_id' => 2, // `vendor_id` is one 1 because 'type' is 'vendor'
+                'mobile'    => '08333333333',
+                'email'     => 'vendor2@admin.com',
+                'password'  => '$2a$12$xvkjSScUPRexfcJTAy9ATutIeGUuRgJrjDIdL/.xlrddEvRZINpeC', // This is the encryption of '123456'    // using https://bcrypt-generator.com/
+                'image'     => '',
+                'status'    => 1, // Our authentication logic in the login() method in the AdminController won't allow this admin logging in in case of 'status' = 0
+                'confirm'   => 'Yes',
+            ],
         ];
         // Note: Check DatabaseSeeder.php
         \App\Models\Admin::insert($adminRecords);

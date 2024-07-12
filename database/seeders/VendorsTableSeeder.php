@@ -30,6 +30,18 @@ class VendorsTableSeeder extends Seeder
                 'email'   => 'vendor@admin.com',
                 'status'  => 1,
             ],
+            [
+                'id'      => 2,
+                'name'    => 'Setia',
+                'address' => 'Surabaya',
+                'city'    => 'Surabaya',
+                'state'   => 'Surabaya',
+                'country' => 'Indonesia',
+                'pincode' => '111111',
+                'mobile'  => '08333333333',
+                'email'   => 'vendor2@admin.com',
+                'status'  => 1,
+            ],
         ];
 
         // Note: Check DatabaseSeeder.php
